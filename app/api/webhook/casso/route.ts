@@ -32,11 +32,20 @@ export async function POST(request: Request) {
              
              // Extract Token from "GUMZ {TOKEN}"
              const match = description.match(/GUMZ\s*[:]?\s*(\d+)/i);
-             const token = match ? match[1] : null;
+             let token = match ? match[1] : null;
 
              if (token) {
-                 // Check if token is likely a Discord User ID (Length > 15) or Request Code (Length < 15)
+                 console.log(`Webhook processing: Found raw token '${token}' in '${description}'`);
+                 
+                 // Handle Prefix/Suffix garbage from Banks
+                 // Case 1: Legacy User ID (Long, e.g. 18-19 digits) -> Keep full
+                 // Case 2: Order Code (Short, 6 digits) -> Take first 6 digits ensures we ignore suffix noise
                  if (token.length < 15) {
+                     if (token.length > 6) {
+                         token = token.substring(0, 6);
+                         console.log(`> Trimmed token to 6 digits: '${token}'`);
+                     }
+                     
                      // NEW FLOW: Token is unique order code
                      const { data: pendingTxn } = await supabase
                          .from('transactions')
