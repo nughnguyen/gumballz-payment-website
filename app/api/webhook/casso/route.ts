@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/app/utils/supabaseClient';
 
+export async function GET() {
+    return NextResponse.json({ success: true, message: 'Webhook is active' });
+}
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
