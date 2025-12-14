@@ -27,7 +27,7 @@ function PaymentCard() {
 
     const qrUrl = method === "Momo" 
         ? `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=2|99|${MOMO_PHONE}|${BANK_NAME}|0|0|0|${amountNum}|${content}|transfer_myqr`
-        : `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact2.png?amount=${amount}&addInfo=${content}&accountName=${encodeURIComponent(BANK_NAME)}`;
+        : `https://img.vietqr.io/image/${BANK_ID}-${BANK_ACCOUNT}-compact.png?amount=${amount}&addInfo=${content}&accountName=${encodeURIComponent(BANK_NAME)}`;
     
     const handleCopy = (text: string, field: string) => {
         navigator.clipboard.writeText(text);
