@@ -7,7 +7,8 @@ export async function GET(request: Request) {
 
     if (!content) return NextResponse.json({ success: false });
 
-    const { data, error } = await supabase
+    // Ensure content is safe or use parameterized query
+    const { data } = await supabase
         .from('transactions')
         .select('*')
         .ilike('description', `%${content}%`)
