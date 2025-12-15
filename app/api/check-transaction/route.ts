@@ -3,19 +3,19 @@ import { supabase } from '@/app/utils/supabaseClient';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
-    const content = searchParams.get('content');
+    const txId = searchParams.get('id');
 
-    if (!content) return NextResponse.json({ success: false });
+    if (!txId) return NextResponse.json({ success: false });
 
-    // Ensure content is safe or use parameterized query
+    // Poll status of specific transaction ID
     const { data } = await supabase
         .from('transactions')
-        .select('*')
-        .ilike('description', `%${content}%`)
+        .select('status')
+        .eq('id', txId)
         .eq('status', 'success')
-        .limit(1);
+        .maybeSingle();
 
-    if (data && data.length > 0) {
+    if (data) {
         return NextResponse.json({ success: true });
     }
     

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: false, error: error.message });
         }
 
-        return NextResponse.json({ success: true, data });
+        return NextResponse.json({ success: true, id: data.id, data });
 
     } catch (e: any) {
         console.error("Create Transaction Error:", e);

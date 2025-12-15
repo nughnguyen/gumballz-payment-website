@@ -55,8 +55,12 @@ export default function Home() {
     const finalId = discordId.trim() || DEFAULT_DEV_ID; 
 
     // Generate a simple unique transaction content
-    // Format: "NAP" + 6 random digits
-    const uniqueCode = "NAP" + Math.floor(100000 + Math.random() * 900000);
+    // Format: "GUMZ" + Discord ID. But this is not unique. 
+    // User requested "content is GUMZ+ID".
+    // We will use GUMZ + ID as the content visible to user.
+    // The backend `create-transaction` will create a PENDING transaction with this content.
+    // We will poll specifically that PENDING transaction's ID to see if it becomes SUCCESS.
+    const uniqueCode = "GUMZ" + finalId;
 
     try {
         // Create transaction in Supabase
@@ -88,6 +92,7 @@ export default function Home() {
             userId: finalId,
             method: "VIETQR", 
             expiry: expiryTimestamp.toString(), 
+            txId: data.id // Pass the DB ID for polling
         });
 
         router.push("/payment?" + params.toString());
@@ -328,7 +333,7 @@ export default function Home() {
                     <span className="font-bold text-slate-900 text-lg">GumballZ</span>
                 </div>
                 <p className="text-slate-500 text-sm mb-6">
-                    © 2024 GumballZ Payment Gateway. All rights reserved.<br/>
+                    © 2025 GumballZ Payment Gateway. All rights reserved.<br/>
                     Sản phẩm phục vụ mục đích giải trí trong cộng đồng Discord.
                 </p>
                 <div className="flex justify-center gap-6 text-sm font-medium text-slate-600">

@@ -30,85 +30,76 @@ export async function POST(request: Request) {
              const amount = txn.amount || txn.transferAmount || 0;
              const bankTransId = txn.id || txn.transactionID || txn.referenceCode || `txn_${Date.now()}`;
              
-             // Extract Token from "GUMZ {TOKEN}" or "NAP {TOKEN}" - Supports "GUMZ 123456", "NAP 123456"
+             // Extract Token from "GUMZ {TOKEN}" or "NAP {TOKEN}"
+             // Handles: "GUMZ 561443914" or "GUMZ561443914"
              const match = description.match(/(?:GUMZ|NAP)\s*[+:\s]?\s*(\d+)/i);
              let token = match ? match[1] : null;
 
              if (token) {
                  console.log(`Webhook processing: Found raw token '${token}' in '${description}'`);
                  
-                 // Handle Prefix/Suffix garbage from Banks
-                 // Case 1: Legacy User ID (Long, e.g. 18-19 digits) -> Keep full
-                 // Case 2: Order Code (Short, 6 digits) -> Take first 6 digits ensures we ignore suffix noise
-                 if (token.length < 15) {
-                     if (token.length > 6) {
-                         token = token.substring(0, 6);
-                         console.log(`> Trimmed token to 6 digits: '${token}'`);
-                     }
+                 // If token is User ID (e.g. > 6 digits)
+                 // We need to look for a PENDING transaction created by the Web App for this User
+                 // That has the same Amount. 
+                 // If we find one, we FULFILL it (so Web App polling can see success).
+                 // If we don't find one, we Create a New Success Record (for manual transfer).
+
+                 // Try to match specific pending transaction first
+                 const { data: pendingTxn } = await supabase
+                     .from('transactions')
+                     .select('id, user_id, created_at, metadata, amount')
+                     .eq('status', 'pending')
+                     .eq('amount', amount) // Amount must match
+                     // Check if description matches OR user_id matches token
+                     // Since uniqueCode stores "GUMZ" + ID, we match user_id directly
+                     // because we know token IS the user_id (mostly)
+                     .ilike('description', `%${token}%`) 
+                     .order('created_at', { ascending: false }) // Get latest
+                     .limit(1)
+                     .maybeSingle();
+
+                 if (pendingTxn) {
+                     // Check Time Limit (10 minutes)
+                     const createdAt = new Date(pendingTxn.created_at).getTime();
+                     const now = Date.now();
+                     const diffMinutes = (now - createdAt) / (1000 * 60);
                      
-                     // NEW FLOW: Token is unique order code
-                     const { data: pendingTxn } = await supabase
-                         .from('transactions')
-                         .select('id, user_id, created_at, metadata')
-                         .eq('status', 'pending')
-                         .ilike('description', `%${token}%`)
-                         .maybeSingle();
-
-                     if (pendingTxn) {
-                         // Check Time Limit (10 minutes)
-                         const createdAt = new Date(pendingTxn.created_at).getTime();
-                         const now = Date.now();
-                         const diffMinutes = (now - createdAt) / (1000 * 60);
-                         
-                         let newStatus = 'success';
-                         if (diffMinutes > 10) {
-                             newStatus = 'late_payment';
-                             console.log(`Transaction ${token} received late (${diffMinutes.toFixed(1)} mins).`);
-                         }
-
-                         // Update existing pending transaction
-                         await supabase.from('transactions').update({
-                             status: newStatus,
-                             transaction_id: bankTransId.toString(),
-                             amount: amount, 
-                             metadata: { ...(pendingTxn.metadata as object), bank_desc: description }
-                         }).eq('id', pendingTxn.id);
-                     } else {
-                         // Code not found, check if it's already processed to avoid dupes
-                         const { data: existing } = await supabase
-                            .from('transactions')
-                            .select('id')
-                            .eq('transaction_id', bankTransId.toString())
-                            .maybeSingle();
-                        
-                         if (!existing) {
-                              await supabase.from('transactions').insert({
-                                 user_id: 0, 
-                                 amount: amount,
-                                 description: description,
-                                 status: 'ignored_code_not_found',
-                                 transaction_id: bankTransId.toString(),
-                                 rewarded: false
-                             });
-                         }
+                     let newStatus = 'success';
+                     if (diffMinutes > 10) {
+                         newStatus = 'late_payment';
+                         console.log(`Transaction ${pendingTxn.id} received late (${diffMinutes.toFixed(1)} mins).`);
                      }
+
+                     // Update existing pending transaction
+                     await supabase.from('transactions').update({
+                         status: newStatus,
+                         transaction_id: bankTransId.toString(),
+                         metadata: { ...(pendingTxn.metadata as object), bank_desc: description, matched_via: 'web_pending' }
+                     }).eq('id', pendingTxn.id);
+
+                     console.log(`Updated PENDING transaction ${pendingTxn.id} to ${newStatus}`);
                  } else {
-                     // OLD FLOW: Token is User ID
+                     // No pending transaction found. This is likely a Manual Transfer.
+                     // Or unexpected flow.
+                     // Check if it's already processed to avoid dupes in 'success' state
                      const { data: existing } = await supabase
                         .from('transactions')
                         .select('id')
                         .eq('transaction_id', bankTransId.toString())
                         .maybeSingle();
-                     
+                    
                      if (!existing) {
-                         await supabase.from('transactions').insert({
-                             user_id: parseInt(token),
+                          // Insert new success record
+                          await supabase.from('transactions').insert({
+                             user_id: parseInt(token), // Token is User ID
                              amount: amount,
                              description: description,
                              status: 'success',
                              transaction_id: bankTransId.toString(),
-                             rewarded: false
+                             rewarded: false,
+                             metadata: { bank_desc: description, matched_via: 'manual_transfer' }
                          });
+                         console.log(`Inserted NEW success transaction for user ${token}`);
                      }
                  }
              }

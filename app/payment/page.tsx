@@ -43,6 +43,7 @@ function PaymentCard() {
   const content = searchParams.get("content") || "UNKNOWN";
   const method = searchParams.get("method") || "Banking";
   const expiryParam = searchParams.get("expiry");
+  const txId = searchParams.get("txId");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const userId = searchParams.get("userId");
@@ -114,12 +115,13 @@ function PaymentCard() {
 
   // Poll for status
   useEffect(() => {
-    if (!content || content === "UNKNOWN" || isExpired || status === "success")
-      return;
+    if (!txId && (!content || content === "UNKNOWN")) return;
+    if (isExpired || status === "success") return;
 
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`/api/check-transaction?content=${content}`);
+        const queryParam = txId ? `id=${txId}` : `content=${content}`;
+        const res = await fetch(`/api/check-transaction?${queryParam}`);
         const data = await res.json();
         if (data.success) {
           setStatus("success");
@@ -130,7 +132,7 @@ function PaymentCard() {
       }
     }, 3000); // Check every 3 seconds
     return () => clearInterval(interval);
-  }, [content, isExpired, status]);
+  }, [content, txId, isExpired, status]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
