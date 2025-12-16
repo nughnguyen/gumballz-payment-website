@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Gamepad2, Facebook, Twitter, Instagram, Mail, MessageCircle } from "lucide-react";
 
 export function Footer() {
@@ -10,8 +11,13 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-1 md:col-span-2 space-y-4">
              <Link href="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-                  <Gamepad2 className="w-5 h-5" />
+                <div className="w-8 h-8 relative rounded-lg overflow-hidden shadow-sm">
+                  <Image 
+                    src="/logo.jpg" 
+                    alt="Logo" 
+                    fill 
+                    className="object-cover"
+                  />
                 </div>
                 <span className="text-xl font-bold tracking-tight text-slate-900">
                   GumballZ

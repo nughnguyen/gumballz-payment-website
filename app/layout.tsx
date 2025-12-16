@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GumballZ Payment Gateway",
   description: "Cổng nạp GumballZ - Nạp Coinz tự động, an toàn, nhanh chóng.",
+  icons: {
+    icon: '/logo.jpg',
+  },
 };
 
 export default function RootLayout({

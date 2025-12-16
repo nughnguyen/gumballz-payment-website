@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Gamepad2, Menu, X, Home, Clock, Phone, BookOpen, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, Home, Clock, Phone, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -21,8 +22,13 @@ export function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 ease-out">
-              <Gamepad2 className="w-5 h-5" />
+            <div className="w-10 h-10 relative rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 ease-out">
+              <Image 
+                src="/logo.jpg" 
+                alt="GumballZ Logo" 
+                fill
+                className="object-cover"
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-lg font-bold tracking-tight text-slate-800 leading-none">
