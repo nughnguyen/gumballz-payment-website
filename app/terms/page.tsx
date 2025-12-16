@@ -29,11 +29,11 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-slate-800 mb-3">2. Quy định nạp Coinz</h2>
+              <h2 className="text-xl font-bold text-slate-800 mb-3">2. Quy định nạp Coiz</h2>
               <ul className="list-disc pl-5 space-y-2">
-                <li>Coinz là đơn vị tiền tệ ảo chỉ có giá trị sử dụng trong hệ thống bot Discord GumballZ.</li>
-                <li>Coinz <strong>không</strong> có giá trị quy đổi ngược lại thành tiền mặt hoặc các loại tài sản thực khác.</li>
-                <li>Mọi giao dịch nạp Coinz là tự nguyện và không thể hoàn tiền (non-refundable) sau khi đã thanh toán thành công.</li>
+                <li>Coiz là đơn vị tiền tệ ảo chỉ có giá trị sử dụng trong hệ thống bot Discord GumballZ.</li>
+                <li>Coiz <strong>không</strong> có giá trị quy đổi ngược lại thành tiền mặt hoặc các loại tài sản thực khác.</li>
+                <li>Mọi giao dịch nạp Coiz là tự nguyện và không thể hoàn tiền (non-refundable) sau khi đã thanh toán thành công.</li>
               </ul>
             </section>
 
@@ -47,7 +47,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-xl font-bold text-slate-800 mb-3">4. Xử lý sự cố</h2>
               <p>
-                Trong trường hợp chuyển khoản nhưng không nhận được Coinz sau 15 phút, vui lòng liên hệ với đội ngũ hỗ trợ qua kênh Discord hoặc mục Liên hệ trên website để được giải quyết. Bạn cần cung cấp mã giao dịch và bằng chứng thanh toán.
+                Trong trường hợp chuyển khoản nhưng không nhận được Coiz sau 15 phút, vui lòng liên hệ với đội ngũ hỗ trợ qua kênh Discord hoặc mục Liên hệ trên website để được giải quyết. Bạn cần cung cấp mã giao dịch và bằng chứng thanh toán.
               </p>
             </section>
             

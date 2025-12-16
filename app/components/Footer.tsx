@@ -24,7 +24,7 @@ export function Footer() {
                 </span>
               </Link>
               <p className="text-slate-500 text-sm leading-relaxed max-w-sm">
-                Hệ thống nạp Coinz tự động dành cho cộng đồng Discord GumballZ. 
+                Hệ thống nạp Coiz tự động dành cho cộng đồng Discord GumballZ. 
                 Nhanh chóng, an toàn và hỗ trợ 24/7.
               </p>
               <div className="flex gap-4 pt-2">

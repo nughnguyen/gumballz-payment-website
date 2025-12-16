@@ -19,8 +19,8 @@ import Link from "next/link";
 
 // Define Packages
 const PACKAGES = [
-  { value: 10000, label: "10.000 VNĐ", bonus: "100.000 Coinz", hot: false },
-  { value: 20000, label: "20.000 VNĐ", bonus: "200.000 Coinz", hot: false },
+  { value: 10000, label: "10.000 VNĐ", bonus: "100.000 Coiz", hot: false },
+  { value: 20000, label: "20.000 VNĐ", bonus: "200.000 Coiz", hot: false },
   { value: 50000, label: "50.000 VNĐ", bonus: "500k + 50k Bonus", hot: true },
   { value: 100000, label: "100.000 VNĐ", bonus: "1M + 200k Bonus", hot: true },
   { value: 200000, label: "200.000 VNĐ", bonus: "2M + 500k Bonus", hot: false },
@@ -120,11 +120,11 @@ export default function Home() {
                 </motion.div>
                 
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white mb-6">
-                    Trung Tâm <span className="text-blue-500">Nạp Coinz</span>
+                    Trung Tâm <span className="text-blue-500">Nạp Coiz</span>
                 </h1>
                 
                 <p className="text-slate-400 text-lg md:text-xl font-normal max-w-2xl leading-relaxed">
-                    Nạp Coinz nhanh chóng, an toàn và nhận nhiều ưu đãi hấp dẫn để trải nghiệm thế giới GumballZ trọn vẹn.
+                    Nạp Coiz nhanh chóng, an toàn và nhận nhiều ưu đãi hấp dẫn để trải nghiệm thế giới GumballZ trọn vẹn.
                 </p>
             </div>
         </div>
@@ -170,7 +170,7 @@ export default function Home() {
 
                             <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
                                 <p className="text-xs text-slate-500 leading-relaxed">
-                                    <strong className="text-slate-700">Lưu ý:</strong> Coinz sẽ được chuyển tự động vào ID này sau khi thanh toán thành công.
+                                    <strong className="text-slate-700">Lưu ý:</strong> Coiz sẽ được chuyển tự động vào ID này sau khi thanh toán thành công.
                                 </p>
                             </div>
                         </div>
@@ -264,7 +264,7 @@ export default function Home() {
                                     <div className="md:w-1/3 bg-blue-50 rounded-xl p-4 border border-blue-100 flex flex-col justify-center">
                                         <div className="text-xs text-blue-600 mb-1 font-medium uppercase tracking-wide">Nhận được</div>
                                         <div className="font-bold text-xl text-blue-700">
-                                            ≈ {formatCurrency(parseInt(customAmount) * 10)} Coinz
+                                            ≈ {formatCurrency(parseInt(customAmount) * 10)} Coiz
                                         </div>
                                     </div>
                                 )}

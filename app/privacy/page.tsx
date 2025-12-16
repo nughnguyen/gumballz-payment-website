@@ -27,7 +27,7 @@ export default function PrivacyPage() {
                 Để thực hiện giao dịch, chúng tôi chỉ thu thập và lưu trữ các thông tin cần thiết tối thiểu, bao gồm:
               </p>
               <ul className="list-disc pl-5 space-y-2 mt-2">
-                <li><strong>Discord ID:</strong> Để xác định tài khoản nhận Coinz.</li>
+                <li><strong>Discord ID:</strong> Để xác định tài khoản nhận Coiz.</li>
                 <li><strong>Mã giao dịch ngân hàng:</strong> Để đối soát và xử lý nạp tiền tự động.</li>
                 <li><strong>Lịch sử nạp:</strong> Thời gian và số tiền nạp để phục vụ việc tra cứu và hỗ trợ.</li>
               </ul>
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-bold text-slate-800 mb-3">2. Sử dụng thông tin</h2>
               <p>
-                Thông tin của bạn chỉ được sử dụng cho mục đích duy nhất là xử lý giao dịch nạp Coinz vào hệ thống Bot Discord. Chúng tôi <strong>tuyệt đối không</strong> chia sẻ, bán hoặc trao đổi thông tin cá nhân của bạn với bất kỳ bên thứ ba nào.
+                Thông tin của bạn chỉ được sử dụng cho mục đích duy nhất là xử lý giao dịch nạp Coiz vào hệ thống Bot Discord. Chúng tôi <strong>tuyệt đối không</strong> chia sẻ, bán hoặc trao đổi thông tin cá nhân của bạn với bất kỳ bên thứ ba nào.
               </p>
             </section>
 

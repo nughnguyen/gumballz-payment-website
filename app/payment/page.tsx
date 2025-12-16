@@ -279,7 +279,7 @@ function PaymentCard() {
                            <p className="text-green-700 font-bold text-sm flex items-center justify-center gap-1">
                                 <ShieldCheck className="w-4 h-4" /> Giao dịch hoàn tất
                            </p>
-                           <p className="text-green-600 text-xs mt-1">Coinz đã được cộng vào tài khoản của bạn.</p>
+                           <p className="text-green-600 text-xs mt-1">Coiz đã được cộng vào tài khoản của bạn.</p>
                        </div>
                    )}
                </div>
