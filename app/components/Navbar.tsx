@@ -22,12 +22,12 @@ export function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 relative rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300 ease-out">
+            <div className="w-14 h-14 relative group-hover:scale-105 transition-transform duration-300 ease-out">
               <Image 
                 src="/logo.png" 
                 alt="GumballZ Logo" 
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
             <div className="flex flex-col">
