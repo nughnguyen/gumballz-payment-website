@@ -15,6 +15,7 @@ import {
     ShieldCheck,
     Wallet
 } from "lucide-react";
+import Link from "next/link";
 
 // Define Packages
 const PACKAGES = [
@@ -107,50 +108,44 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] font-sans text-slate-800 pb-20">
-        {/* Navbar */}
-        <nav className="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
-            <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
-                        <Gamepad2 className="w-6 h-6" />
-                    </div>
-                    <span className="text-xl font-bold tracking-tight text-slate-900">
-                        GumballZ <span className="text-blue-600">Payment</span>
-                    </span>
-                </div>
-                <div className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-500">
-                    <a href="#" className="hover:text-blue-600 transition-colors">Trang chủ</a>
-                    <a href="#" className="hover:text-blue-600 transition-colors">Lịch sử</a>
-                    <a href="#" className="hover:text-blue-600 transition-colors">Hỗ trợ</a>
-                    <div className="w-px h-4 bg-slate-300"></div>
-                    <div className="flex items-center gap-2 text-slate-700">
-                        <User className="w-4 h-4" />
-                        <span>Khách</span>
-                    </div>
-                </div>
+        {/* Banner - Clean Design */}
+        <div className="relative bg-slate-900 h-[280px] overflow-hidden">
+            {/* Abstract Background Pattern */}
+            <div className="absolute inset-0 opacity-20">
+                <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M0 100 C 20 0 50 0 100 100 Z" fill="url(#grad1)" />
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style={{stopColor:'rgb(59,130,246)', stopOpacity:1}} />
+                        <stop offset="100%" style={{stopColor:'rgb(147,51,234)', stopOpacity:1}} />
+                        </linearGradient>
+                    </defs>
+                </svg>
             </div>
-        </nav>
+            
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
 
-        {/* Banner */}
-        <div className="bg-linear-to-r from-blue-900 to-slate-900 h-48 md:h-64 relative overflow-hidden">
-            <div className="absolute inset-0 bg-[url('https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZpbHRmaXZ4b3J5YWR4aGZ4eXF4aGZ4eXF4aGZ4eXF4aGZ4eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LdOyjZ7io5Msw/giphy.gif')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
-            <div className="max-w-6xl mx-auto px-4 h-full flex items-center relative z-10">
-                <div className="max-w-2xl text-white space-y-2">
+            <div className="max-w-6xl mx-auto px-4 h-full flex items-center relative z-10 pt-4">
+                <div className="max-w-3xl text-white space-y-4">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-400/30 rounded-full text-blue-200 text-xs font-medium mb-2 backdrop-blur-sm"
+                        className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/20 rounded-full text-blue-200 text-xs font-medium backdrop-blur-md"
                     >
                         <ShieldCheck className="w-3 h-3" /> Hệ thống nạp tự động 24/7
                     </motion.div>
-                    <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">Trung Tâm Nạp Thẻ</h1>
-                    <p className="text-blue-100/80 text-lg">Nạp Coinz nhanh chóng, an toàn và nhận nhiều ưu đãi hấp dẫn.</p>
+                    <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight">
+                        Trung Tâm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">Nạp Coinz</span>
+                    </h1>
+                    <p className="text-blue-100/80 text-lg md:text-xl font-light max-w-xl">
+                        Nạp Coinz nhanh chóng, an toàn và nhận nhiều ưu đãi hấp dẫn để trải nghiệm thế giới GumballZ trọn vẹn.
+                    </p>
                 </div>
             </div>
         </div>
 
         {/* Main Content */}
-        <main className="max-w-6xl mx-auto px-4 -mt-10 relative z-20">
+        <main className="max-w-6xl mx-auto px-4 -mt-16 relative z-20 pb-20">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 
                 {/* Left Column: ID Input & Info */}
@@ -158,37 +153,37 @@ export default function Home() {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100"
+                        className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100"
                     >
                         <h2 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                           <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-bold">1</span>
+                           <span className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold border border-blue-100">1</span>
                            Thông tin tài khoản
                         </h2>
                         
                         <div className="space-y-4">
                             <div>
-                                <label className="text-sm font-medium text-slate-600 mb-1.5 block">Nhập Discord ID</label>
+                                <label className="text-sm font-medium text-slate-700 mb-1.5 block">Nhập Discord ID</label>
                                 <div className="relative">
                                     <input 
                                         type="text" 
                                         value={discordId}
                                         onChange={(e) => setDiscordId(e.target.value)}
                                         placeholder="Ví dụ: 561443..."
-                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-mono text-sm"
+                                        className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-mono text-sm shadow-sm"
                                     />
                                     <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                 </div>
                                 <button 
                                     onClick={() => setShowGuide(true)}
-                                    className="text-xs text-blue-600 hover:text-blue-700 font-medium mt-2 flex items-center gap-1"
+                                    className="text-xs text-blue-600 hover:text-blue-700 font-medium mt-2 flex items-center gap-1 hover:underline"
                                 >
                                     <Info className="w-3 h-3" /> Hướng dẫn lấy ID
                                 </button>
                             </div>
 
-                            <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
-                                <p className="text-xs text-blue-800">
-                                    <strong>Lưu ý:</strong> Nếu không nhập ID, Coinz sẽ được chuyển vào tài khoản mặc định của Developer để ủng hộ server.
+                            <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-xl">
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                    <strong className="text-blue-700">Lưu ý:</strong> Coinz sẽ được chuyển tự động vào ID này sau khi thanh toán thành công.
                                 </p>
                             </div>
                         </div>
@@ -198,9 +193,9 @@ export default function Home() {
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
                         <h3 className="font-bold text-slate-800 mb-2">Bạn cần hỗ trợ?</h3>
                         <p className="text-sm text-slate-500 mb-4">Liên hệ với đội ngũ CSKH của chúng tôi nếu bạn gặp sự cố.</p>
-                        <button className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition-colors">
-                            Liên hệ Discord
-                        </button>
+                        <Link href="/contact" className="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition-colors block text-center">
+                            Liên hệ ngay
+                        </Link>
                     </div>
                 </div>
 
@@ -210,10 +205,10 @@ export default function Home() {
                          initial={{ opacity: 0, y: 20 }}
                          animate={{ opacity: 1, y: 0 }}
                          transition={{ delay: 0.1 }}
-                         className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100"
+                         className="bg-white rounded-2xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-slate-100"
                     >
                         <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                           <span className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-bold">2</span>
+                           <span className="w-8 h-8 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold border border-blue-100">2</span>
                            Chọn gói nạp
                         </h2>
 
@@ -222,14 +217,14 @@ export default function Home() {
                                 <div 
                                     key={pkg.value}
                                     onClick={() => handleSelectPackage(pkg.value)}
-                                    className={`relative cursor-pointer group rounded-xl border-2 p-4 transition-all duration-200 ${
+                                    className={`relative cursor-pointer group rounded-xl border-2 p-4 transition-all duration-300 ${
                                         selectedPackage === pkg.value
-                                        ? "border-blue-600 bg-blue-50/50 scale-[1.02] shadow-[0_4px_20px_-4px_rgba(37,99,235,0.2)]"
-                                        : "border-slate-100 bg-white hover:border-blue-200 hover:shadow-md"
+                                        ? "border-blue-600 bg-blue-50/30 scale-[1.02] shadow-lg shadow-blue-500/10"
+                                        : "border-slate-100 bg-white hover:border-blue-300 hover:shadow-md"
                                     }`}
                                 >
                                     {pkg.hot && (
-                                        <div className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm z-10">
+                                        <div className="absolute -top-3 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg shadow-red-500/30 z-10 skew-x-[-10deg]">
                                             HOT
                                         </div>
                                     )}
@@ -239,15 +234,15 @@ export default function Home() {
                                         </div>
                                     )}
                                     
-                                    <div className="flex flex-col items-center text-center space-y-2 pt-2">
-                                        <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                            <Coins className={`w-6 h-6 ${selectedPackage === pkg.value ? "text-blue-600" : "text-slate-400 group-hover:text-blue-500"}`} />
+                                    <div className="flex flex-col items-center text-center space-y-3 pt-2">
+                                        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300 shadow-sm ${selectedPackage === pkg.value ? 'bg-blue-600 text-white shadow-blue-500/30' : 'bg-slate-100 text-slate-400 group-hover:bg-blue-100 group-hover:text-blue-600'}`}>
+                                            <Coins className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <div className="font-extrabold text-slate-800 text-lg">
+                                            <div className="font-black text-slate-800 text-lg tracking-tight">
                                                 {formatCurrency(pkg.value)}
                                             </div>
-                                            <div className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md mt-1 inline-block">
+                                            <div className="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded-md mt-1 inline-block border border-blue-100">
                                                 +{pkg.bonus}
                                             </div>
                                         </div>
@@ -257,10 +252,10 @@ export default function Home() {
                         </div>
 
                         {/* Custom Amount */}
-                        <div className="mt-8 pt-8 border-t border-slate-100">
+                        <div className="mt-8 pt-8 border-t border-slate-100/80 dashed">
                              <div className="flex flex-col md:flex-row md:items-center gap-4">
                                 <div className="flex-1">
-                                    <label className="text-sm font-medium text-slate-600 mb-1.5 block">Hoặc nhập số tiền tùy ý (VNĐ)</label>
+                                    <label className="text-sm font-medium text-slate-700 mb-1.5 block">Hoặc nhập số tiền tùy ý (VNĐ)</label>
                                     <div className="relative">
                                         <input
                                             type="text"
@@ -271,14 +266,14 @@ export default function Home() {
                                                 if (raw) setSelectedPackage(null);
                                             }}
                                             placeholder="Tối thiểu 10.000đ"
-                                            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-bold text-slate-800"
+                                            className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-bold text-slate-800 transition-all"
                                         />
                                         <Wallet className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                                     </div>
                                 </div>
                                 {customAmount && (
-                                    <div className="md:w-1/3 bg-blue-50 rounded-xl p-3 border border-blue-100">
-                                        <div className="text-xs text-blue-600 mb-1">Quy đổi nhận được:</div>
+                                    <div className="md:w-1/3 bg-blue-50 rounded-xl p-3 border border-blue-100 flex flex-col justify-center">
+                                        <div className="text-xs text-blue-600 mb-1 font-medium">Quy đổi nhận được:</div>
                                         <div className="font-bold text-lg text-blue-700">
                                             ≈ {formatCurrency(parseInt(customAmount) * 10)} Coinz
                                         </div>
@@ -293,22 +288,22 @@ export default function Home() {
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="bg-white rounded-2xl p-6 shadow-lg shadow-blue-900/5 border border-slate-100 sticky bottom-4 md:static"
+                        className="bg-white rounded-2xl p-6 shadow-xl shadow-slate-200/50 border border-slate-100 sticky bottom-4 md:static z-30"
                     >
                          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                            <div className="text-center md:text-left">
-                                <div className="text-sm text-slate-500">Tổng thanh toán</div>
-                                <div className="text-3xl font-black text-blue-600">
+                            <div className="text-center md:text-left w-full">
+                                <div className="text-sm text-slate-500 font-medium mb-1">Tổng thanh toán</div>
+                                <div className="text-4xl font-black text-slate-900 tracking-tight">
                                     {formatCurrency(currentAmount)}
                                 </div>
                             </div>
                             <button
                                 onClick={handleDonate}
                                 disabled={!currentAmount || isCreating}
-                                className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-blue-600/20 ${
+                                className={`w-full md:w-auto px-8 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-xl shadow-blue-500/20 whitespace-nowrap ${
                                     currentAmount && !isCreating
                                     ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white transform active:scale-[0.98]" 
-                                    : "bg-slate-200 text-slate-400 cursor-not-allowed"
+                                    : "bg-slate-100 text-slate-300 cursor-not-allowed"
                                 }`}
                             >
                                 {isCreating ? (
@@ -322,27 +317,6 @@ export default function Home() {
                 </div>
             </div>
         </main>
-
-       {/* Footer */}
-        <footer className="mt-20 border-t border-slate-200 bg-white py-12">
-            <div className="max-w-6xl mx-auto px-4 text-center">
-                <div className="flex items-center justify-center gap-2 mb-4">
-                     <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center text-white">
-                        <Gamepad2 className="w-5 h-5" />
-                    </div>
-                    <span className="font-bold text-slate-900 text-lg">GumballZ</span>
-                </div>
-                <p className="text-slate-500 text-sm mb-6">
-                    © 2025 GumballZ Payment Gateway. All rights reserved.<br/>
-                    Sản phẩm phục vụ mục đích giải trí trong cộng đồng Discord.
-                </p>
-                <div className="flex justify-center gap-6 text-sm font-medium text-slate-600">
-                    <a href="/terms" className="hover:text-blue-600 transition-colors">Điều khoản</a>
-                    <a href="/privacy" className="hover:text-blue-600 transition-colors">Bảo mật</a>
-                    <a href="/contact" className="hover:text-blue-600 transition-colors">Liên hệ</a>
-                </div>
-            </div>
-        </footer>
 
         {/* Guide Modal */}
         <AnimatePresence>
