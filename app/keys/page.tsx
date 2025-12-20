@@ -99,6 +99,7 @@ export default function KeysPage() {
       </div>
 
       <div className="relative z-10 container mx-auto px-6 pt-12 max-w-6xl">
+        {/* Navigation Tabs */}
         <div className="flex justify-center mb-16">
           <div className="bg-slate-800/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/5 flex gap-2">
             <button
@@ -115,6 +116,7 @@ export default function KeysPage() {
           </div>
         </div>
 
+        {/* Header */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4 uppercase italic">
             Hệ thống <span className="text-blue-500">Key Mod</span>
