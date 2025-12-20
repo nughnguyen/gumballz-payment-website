@@ -77,38 +77,23 @@ export async function POST() {
       .select('*')
       .eq('key_type', 'FREE')
       .eq('created_date', today)
-      .eq('is_active', true)
       .single();
 
-    if (checkError && checkError.code !== 'PGRST116') {
-      console.error('Error checking existing key:', checkError);
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Database error' 
-      }, { status: 500 });
-    }
-
-    // If key exists for today, return its short link
-    if (existingKey && existingKey.short_link) {
+    if (existingKey) {
       return NextResponse.json({
         success: true,
         shortLink: existingKey.short_link,
-        message: 'Key free hôm nay đã được tạo',
-        expiresAt: existingKey.expires_at
+        expiresAt: existingKey.expires_at,
+        message: "Key hôm nay đã sẵn sàng"
       });
     }
 
-    // Generate new free key for today
+    // 2. Nếu chưa có, tạo mới
     const keyValue = generateKey();
-    const expiresAt = getEndOfDayVN(); // 23:59:59.999 VN time
-
-    // Create destination URL (where user will land after bypassing yeulink)
+    const expiresAt = getEndOfDayVN();
     const destinationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/key/free/${encodeURIComponent(keyValue)}`;
-    
-    // Create yeulink short link
     const shortLink = await createYeulinkShortLink(destinationUrl);
 
-    // Insert new key into database
     const { data: newKey, error: insertError } = await supabase
       .from('mod_keys')
       .insert({
@@ -125,25 +110,19 @@ export async function POST() {
       .single();
 
     if (insertError) {
-      console.error('Error creating key:', insertError);
-      return NextResponse.json({ 
-        success: false, 
-        error: 'Failed to create key' 
-      }, { status: 500 });
+      console.error('Insert error:', insertError);
+      return NextResponse.json({ success: false, error: "Lỗi tạo dữ liệu trong Database" }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      shortLink: newKey.short_link,
-      message: 'Link lấy key free đã được tạo',
-      expiresAt: newKey.expires_at
+      shortLink: shortLink,
+      expiresAt: expiresAt.toISOString(),
+      message: "Đã tạo key mới thành công"
     });
 
   } catch (error) {
-    console.error('Error in generate-free:', error);
-    return NextResponse.json({ 
-      success: false, 
-      error: 'Internal server error' 
-    }, { status: 500 });
+    console.error('Fatal error:', error);
+    return NextResponse.json({ success: false, error: "Lỗi hệ thống nghiêm trọng" }, { status: 500 });
   }
 }
