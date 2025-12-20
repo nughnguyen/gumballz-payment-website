@@ -1,419 +1,168 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-    CreditCard, 
-    Gamepad2, 
-    Info, 
-    ArrowRight, 
-    CheckCircle2, 
-    Coins, 
-    Search,
-    User,
-    ShieldCheck,
-    Wallet
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { Shield, Zap, Star, ChevronRight, Gamepad2, Gift, Crown } from "lucide-react";
 import Link from "next/link";
 
-// Define Packages
-const PACKAGES = [
-  { value: 10000, label: "10.000 VNĐ", bonus: "100.000 Coiz", hot: false },
-  { value: 20000, label: "20.000 VNĐ", bonus: "200.000 Coiz", hot: false },
-  { value: 50000, label: "50.000 VNĐ", bonus: "500k + 50k Bonus", hot: true },
-  { value: 100000, label: "100.000 VNĐ", bonus: "1M + 200k Bonus", hot: true },
-  { value: 200000, label: "200.000 VNĐ", bonus: "2M + 500k Bonus", hot: false },
-  { value: 500000, label: "500.000 VNĐ", bonus: "5M + 2M Bonus", hot: false },
-];
-
-const DEFAULT_DEV_ID = "561443914062757908";
-
 export default function Home() {
-  const router = useRouter();
-  const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
-  const [customAmount, setCustomAmount] = useState<string>("");
-  const [discordId, setDiscordId] = useState("");
-  const [showGuide, setShowGuide] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
-  const [showDepositSection, setShowDepositSection] = useState(false);
-
-  // Helper to handle package selection
-  const handleSelectPackage = (val: number) => {
-    setSelectedPackage(val);
-    setCustomAmount(""); 
-  };
-
-  const handleDonate = async () => {
-    const amount = selectedPackage || (customAmount ? parseInt(customAmount) : 0);
-    if (!amount || amount < 1000) {
-        alert("Vui lòng nhập số tiền tối thiểu 1.000 VNĐ");
-        return;
+  const features = [
+    {
+      icon: <Zap className="w-6 h-6 text-yellow-400" />,
+      title: "Kích hoạt tức thì",
+      description: "Hệ thống tự động xử lý key ngay sau khi thanh toán thành công."
+    },
+    {
+      icon: <Shield className="w-6 h-6 text-emerald-400" />,
+      title: "Bảo mật tuyệt đối",
+      description: "Mã hóa Device ID đảm bảo key của bạn chỉ dành riêng cho bạn."
+    },
+    {
+      icon: <Star className="w-6 h-6 text-purple-400" />,
+      title: "Premium Features",
+      description: "Mở khóa toàn bộ tính năng mod menu chuyên nghiệp nhất."
     }
-    
-    setIsCreating(true);
-    
-    // Use entered ID or default dev ID
-    const finalId = discordId.trim() || DEFAULT_DEV_ID; 
-
-    // Generate a simple unique transaction content
-    // Format: "GUMZ" + Discord ID. But this is not unique. 
-    // User requested "content is GUMZ+ID".
-    // We will use GUMZ + ID as the content visible to user.
-    // The backend `create-transaction` will create a PENDING transaction with this content.
-    // We will poll specifically that PENDING transaction's ID to see if it becomes SUCCESS.
-    const uniqueCode = "GUMZ" + finalId;
-
-    try {
-        // Create transaction in Supabase
-        const res = await fetch("/api/create-transaction", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                amount,
-                userId: finalId,
-                content: uniqueCode,
-                method: "VIETQR"
-            })
-        });
-
-        const data = await res.json();
-        
-        if (!data.success) {
-            console.error("Failed to create transaction:", data.error);
-            alert("Có lỗi xảy ra khi tạo giao dịch. Vui lòng thử lại.");
-            setIsCreating(false);
-            return;
-        }
-
-        const expiryTimestamp = Date.now() + 10 * 60 * 1000;
-
-        const params = new URLSearchParams({
-            amount: amount.toString(),
-            content: uniqueCode,
-            userId: finalId,
-            method: "VIETQR", 
-            expiry: expiryTimestamp.toString(), 
-            txId: data.id // Pass the DB ID for polling
-        });
-
-        router.push("/payment?" + params.toString());
-    } catch (error) {
-        console.error("Error creating transaction:", error);
-        alert("Có lỗi kết nối. Vui lòng thử lại.");
-        setIsCreating(false);
-    }
-  };
-
-  const currentAmount = selectedPackage || (customAmount ? parseInt(customAmount) : 0);
+  ];
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] font-sans text-slate-800 pb-20">
-        {/* Banner - Clean Design - Updated */}
-        <div className="bg-[#0f172a] py-20 border-b border-slate-800">
-            <div className="max-w-6xl mx-auto px-4 flex flex-col items-center text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="inline-flex items-center gap-2 px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-blue-400 text-xs font-medium mb-6"
-                >
-                    <ShieldCheck className="w-3 h-3" /> Hệ thống tự động 24/7
-                </motion.div>
-                
-                <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white mb-6">
-                    Trung Tâm <span className="text-blue-500">GumballZ</span>
-                </h1>
-                
-                <p className="text-slate-400 text-lg md:text-xl font-normal max-w-2xl leading-relaxed">
-                    Nạp Coiz cho Discord Bot hoặc lấy Key Mod Menu để trải nghiệm thế giới GumballZ trọn vẹn.
+    <div className="min-h-screen bg-[#0F172A] text-white selection:bg-cyan-500/30 overflow-x-hidden">
+      {/* Background Decor */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/10 blur-[120px] rounded-full" />
+      </div>
+
+      <main className="relative z-10 container mx-auto px-6 py-20 lg:py-32">
+        {/* Hero Section */}
+        <div className="flex flex-col items-center text-center space-y-8 mb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-cyan-400 text-sm font-medium mb-4"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            GumballZ System v3.0 Is Live
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-none uppercase italic"
+          >
+            GumballZ <br />
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              HUB MENU
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="max-w-2xl text-slate-400 text-lg md:text-xl leading-relaxed"
+          >
+            Hệ thống quản lý key chuyên biệt. Trải nghiệm tốc độ, bảo mật và tính năng vượt trội với GumballZ Mod Menu.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-wrap items-center justify-center gap-4 pt-8"
+          >
+            <Link
+              href="/keys"
+              className="group relative px-10 py-5 rounded-2xl bg-cyan-500 text-black font-black text-xl overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(6,182,212,0.3)]"
+            >
+              <div className="flex items-center gap-2">
+                <Gamepad2 className="w-6 h-6" />
+                TRỰC TIẾP LẤY KEY
+                <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </Link>
+          </motion.div>
+        </div>
+
+        {/* Options Cards */}
+        <div className="grid md:grid-cols-2 gap-8 mb-32">
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="relative p-1 rounded-[2.5rem] bg-gradient-to-br from-emerald-500/20 to-transparent shadow-2xl"
+          >
+            <div className="h-full p-8 md:p-12 rounded-[2.3rem] bg-[#111827]/80 backdrop-blur-xl border border-white/5 flex flex-col justify-between">
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-6">
+                  <Gift className="w-8 h-8 text-emerald-400" />
+                </div>
+                <h3 className="text-3xl font-bold mb-4 italic uppercase tracking-tighter">Key Miễn Phí</h3>
+                <p className="text-slate-400 mb-8 leading-relaxed">
+                  Trải nghiệm thử các tính năng cơ bản của GumballZ. Key được reset hàng ngày.
                 </p>
+              </div>
+              <ul className="space-y-4 mb-10 text-slate-300">
+                <li className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Reset mỗi ngày lúc 00:00 VN
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Yêu cầu vượt link Yeulink
+                </li>
+              </ul>
+              <Link
+                href="/keys"
+                className="w-full py-4 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold hover:bg-emerald-500 hover:text-white transition-all text-center uppercase tracking-widest"
+              >
+                Nhận Key Ngay
+              </Link>
             </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="relative p-1 rounded-[2.5rem] bg-gradient-to-br from-purple-500/20 to-transparent shadow-2xl"
+          >
+            <div className="h-full p-8 md:p-12 rounded-[2.3rem] bg-[#111827]/80 backdrop-blur-xl border border-white/5 flex flex-col justify-between">
+              <div>
+                <div className="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center mb-6">
+                  <Crown className="w-8 h-8 text-purple-400" />
+                </div>
+                <h3 className="text-3xl font-bold mb-4 italic uppercase tracking-tighter">Key Premium</h3>
+                <p className="text-slate-400 mb-8 leading-relaxed">
+                  Mở khóa toàn bộ sức mạnh tối thượng, không quảng cáo, hỗ trợ ưu tiên.
+                </p>
+              </div>
+              <ul className="space-y-4 mb-10 text-slate-300">
+                <li className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                  Full tính năng VIP & No Ads
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                  Thời hạn linh hoạt theo giờ mua
+                </li>
+              </ul>
+              <Link
+                href="/keys"
+                className="group w-full py-4 rounded-xl bg-purple-500 text-white font-bold hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all text-center uppercase tracking-widest flex items-center justify-center gap-2"
+              >
+                Mua Key VIP
+                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </motion.div>
         </div>
+      </main>
 
-        {/* Service Selection Cards */}
-        <div className="max-w-6xl mx-auto px-4 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                {/* Nạp Coiz Card */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-gradient-to-br from-blue-500/10 to-purple-500/5 border border-blue-500/20 rounded-2xl p-8 hover:border-blue-500/40 transition-all cursor-pointer group"
-                    onClick={() => setShowDepositSection(true)}
-                >
-                    <div className="flex items-start justify-between mb-4">
-                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                            <Coins className="w-7 h-7 text-white" />
-                        </div>
-                        <ArrowRight className="w-6 h-6 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-white mb-2">Nạp Coiz</h2>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                        Nạp tiền vào Discord Bot để mua vật phẩm, tham gia mini-game và nhiều hơn nữa
-                    </p>
-                    <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold">
-                        <Wallet className="w-4 h-4" />
-                        <span>Nạp ngay</span>
-                    </div>
-                </motion.div>
-
-                {/* Mod Menu Key Card */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="bg-gradient-to-br from-emerald-500/10 to-green-500/5 border border-emerald-500/20 rounded-2xl p-8 hover:border-emerald-500/40 transition-all group"
-                >
-                    <Link href="/keys" className="block">
-                        <div className="flex items-start justify-between mb-4">
-                            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
-                                <Gamepad2 className="w-7 h-7 text-white" />
-                            </div>
-                            <ArrowRight className="w-6 h-6 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </div>
-                        <h2 className="text-2xl font-bold text-white mb-2">Key Mod Menu</h2>
-                        <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                            Lấy key miễn phí hàng ngày hoặc mua key premium để sử dụng Mod Menu
-                        </p>
-                        <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold">
-                            <CreditCard className="w-4 h-4" />
-                            <span>Lấy key ngay</span>
-                        </div>
-                    </Link>
-                </motion.div>
-            </div>
+      <footer className="relative z-10 border-t border-white/5 bg-[#111827]/50 backdrop-blur-md py-12">
+        <div className="container mx-auto px-6 text-center space-y-4">
+          <div className="text-xl font-black italic tracking-widest text-slate-100 uppercase">GumballZ System</div>
+          <div className="text-slate-500 text-sm">© 2024 GumballZ Project. All rights reserved.</div>
         </div>
-
-        {/* Main Content - Nạp Coiz Section (shown when selected) */}
-        <main className={`max-w-6xl mx-auto px-4 pb-24 ${!showDepositSection ? 'hidden' : ''}`}>
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                
-                {/* Left Column: ID Input & Info */}
-                <div className="lg:col-span-4 space-y-6">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200"
-                    >
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                               Thông tin tài khoản
-                            </h2>
-                            <span className="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold">1</span>
-                        </div>
-                        
-                        <div className="space-y-4">
-                            <div>
-                                <label className="text-sm font-semibold text-slate-700 mb-2 block">Nhập Discord ID</label>
-                                <div className="relative">
-                                    <input 
-                                        type="text" 
-                                        value={discordId}
-                                        onChange={(e) => setDiscordId(e.target.value)}
-                                        placeholder="Ví dụ: 561443..."
-                                        className="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all font-mono text-sm text-slate-800 font-medium"
-                                    />
-                                    <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                                </div>
-                                <button 
-                                    onClick={() => setShowGuide(true)}
-                                    className="text-xs text-blue-600 hover:text-blue-700 font-medium mt-3 flex items-center gap-1 hover:underline"
-                                >
-                                    <Info className="w-3 h-3" /> Hướng dẫn lấy ID
-                                </button>
-                            </div>
-
-                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                <p className="text-xs text-slate-500 leading-relaxed">
-                                    <strong className="text-slate-700">Lưu ý:</strong> Coiz sẽ được chuyển tự động vào ID này sau khi thanh toán thành công.
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    {/* Support Box */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-                        <h3 className="font-bold text-slate-800 mb-2">Bạn cần hỗ trợ?</h3>
-                        <p className="text-sm text-slate-500 mb-4">Liên hệ với đội ngũ CSKH của chúng tôi nếu bạn gặp sự cố trong quá trình nạp.</p>
-                        <Link href="/contact" className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-semibold transition-colors block text-center">
-                            Liên hệ ngay
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Right Column: Packages */}
-                <div className="lg:col-span-8 space-y-6">
-                    <motion.div
-                         initial={{ opacity: 0, y: 20 }}
-                         animate={{ opacity: 1, y: 0 }}
-                         transition={{ delay: 0.1 }}
-                         className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200"
-                    >
-                        <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                               Chọn gói nạp
-                            </h2>
-                            <span className="w-6 h-6 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center text-xs font-bold">2</span>
-                        </div>
-
-                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                            {PACKAGES.map((pkg) => (
-                                <div 
-                                    key={pkg.value}
-                                    onClick={() => handleSelectPackage(pkg.value)}
-                                    className={`relative cursor-pointer group rounded-xl border-2 p-5 transition-all duration-200 ${
-                                        selectedPackage === pkg.value
-                                        ? "border-blue-600 bg-blue-50/50"
-                                        : "border-slate-100 bg-white hover:border-slate-300 hover:shadow-sm"
-                                    }`}
-                                >
-                                    {pkg.hot && (
-                                        <div className="absolute -top-3 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm z-10">
-                                            HOT
-                                        </div>
-                                    )}
-                                    {selectedPackage === pkg.value && (
-                                        <div className="absolute top-3 right-3 text-blue-600">
-                                            <CheckCircle2 className="w-5 h-5 fill-blue-100" />
-                                        </div>
-                                    )}
-                                    
-                                    <div className="flex flex-col items-center text-center space-y-3 pt-1">
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${selectedPackage === pkg.value ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'}`}>
-                                            <Coins className="w-5 h-5" />
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-slate-900 text-lg tracking-tight">
-                                                {formatCurrency(pkg.value)}
-                                            </div>
-                                            <div className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded inline-block mt-2">
-                                                +{pkg.bonus}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Custom Amount */}
-                        <div className="mt-8 pt-8 border-t border-slate-100 dashed">
-                             <div className="flex flex-col md:flex-row md:items-center gap-4">
-                                <div className="flex-1">
-                                    <label className="text-sm font-semibold text-slate-700 mb-2 block">Hoặc nhập số tiền tùy ý (VNĐ)</label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            value={customAmount ? parseInt(customAmount).toLocaleString('vi-VN') : ''}
-                                            onChange={(e) => {
-                                                const raw = e.target.value.replace(/[^0-9]/g, '');
-                                                setCustomAmount(raw);
-                                                if (raw) setSelectedPackage(null);
-                                            }}
-                                            placeholder="Tối thiểu 10.000đ"
-                                            className="w-full pl-10 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-bold text-slate-800 transition-all"
-                                        />
-                                        <Wallet className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                                    </div>
-                                </div>
-                                {customAmount && (
-                                    <div className="md:w-1/3 bg-blue-50 rounded-xl p-4 border border-blue-100 flex flex-col justify-center">
-                                        <div className="text-xs text-blue-600 mb-1 font-medium uppercase tracking-wide">Nhận được</div>
-                                        <div className="font-bold text-xl text-blue-700">
-                                            ≈ {formatCurrency(parseInt(customAmount) * 10)} Coiz
-                                        </div>
-                                    </div>
-                                )}
-                             </div>
-                        </div>
-
-                    </motion.div>
-
-                    {/* Pay Button */}
-                    <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 sticky bottom-4 md:static z-30"
-                    >
-                         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                            <div className="text-center md:text-left w-full">
-                                <div className="text-sm text-slate-500 font-medium mb-1">Tổng thanh toán</div>
-                                <div className="text-3xl font-black text-slate-900 tracking-tight">
-                                    {formatCurrency(currentAmount)}
-                                </div>
-                            </div>
-                            <button
-                                onClick={handleDonate}
-                                disabled={!currentAmount || isCreating}
-                                className={`w-full md:w-auto px-10 py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2 transition-all whitespace-nowrap ${
-                                    currentAmount && !isCreating
-                                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20 transform active:scale-[0.98]" 
-                                    : "bg-slate-100 text-slate-300 cursor-not-allowed"
-                                }`}
-                            >
-                                {isCreating ? (
-                                    <>Đang xử lý...</>
-                                ) : (
-                                    <>Thanh toán ngay <ArrowRight className="w-5 h-5" /></>
-                                )}
-                            </button>
-                         </div>
-                    </motion.div>
-                </div>
-            </div>
-        </main>
-
-        {/* Guide Modal */}
-        <AnimatePresence>
-            {showGuide && (
-                <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/50 backdrop-blur-sm" 
-                    onClick={() => setShowGuide(false)}
-                >
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="bg-white p-6 rounded-2xl max-w-lg w-full shadow-2xl relative"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <button 
-                            onClick={() => setShowGuide(false)} 
-                            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors"
-                        >
-                             ✕
-                        </button>
-                        <h3 className="text-2xl font-bold mb-6 text-slate-800">Cách lấy Discord User ID</h3>
-                        <div className="space-y-4 text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <p className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">1</span>
-                                <span>Vào phần <strong>Cài đặt người dùng (User Settings)</strong> trên Discord.</span>
-                            </p>
-                            <p className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">2</span>
-                                <span>Chọn mục <strong>Nâng cao (Advanced)</strong> trong danh sách bên trái.</span>
-                            </p>
-                            <p className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">3</span>
-                                <span>Bật chế độ <strong>Chế độ nhà phát triển (Developer Mode)</strong>.</span>
-                            </p>
-                            <p className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">4</span>
-                                <span>Ấn chuột phải vào Avatar của bạn hoặc tên bạn, chọn <strong>Sao chép ID người dùng (Copy User ID)</strong>.</span>
-                            </p>
-                        </div>
-                        <button 
-                            onClick={() => setShowGuide(false)} 
-                            className="mt-6 w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-colors text-white shadow-lg shadow-blue-600/20"
-                        >
-                            Đã hiểu
-                        </button>
-                    </motion.div>
-                </div>
-            )}
-        </AnimatePresence>
+      </footer>
     </div>
   );
-}
-
-function formatCurrency(val: number) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(val);
 }
