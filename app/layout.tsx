@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${outfit.variable} font-sans antialiased min-h-screen flex flex-col`}
       >
         <Navbar />
-        <main className="flex-grow bg-slate-50">
+        <main className="grow bg-slate-50">
           {children}
         </main>
         <Footer />

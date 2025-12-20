@@ -80,7 +80,7 @@ export default function Home() {
       {/* Guide Modal */}
       <AnimatePresence>
         {showGuide && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4 md:p-6">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -155,7 +155,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="p-6 bg-blue-600 rounded-[2rem] text-white flex items-center justify-between group cursor-pointer hover:bg-blue-700 transition-all shadow-xl shadow-blue-200">
+                <div className="p-6 bg-blue-600 rounded-4xl text-white flex items-center justify-between group cursor-pointer hover:bg-blue-700 transition-all shadow-xl shadow-blue-200">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
                       <MessageCircle className="w-6 h-6" />
