@@ -17,8 +17,10 @@ import {
   Check
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function KeysPage() {
+  const router = useRouter();
   const [loadingFree, setLoadingFree] = useState(false);
   const [freeKeyLink, setFreeKeyLink] = useState("");
   const [freeKeyExpiry, setFreeKeyExpiry] = useState("");
@@ -57,16 +59,32 @@ export default function KeysPage() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-500/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-6 pt-12">
+      <div className="relative z-10 container mx-auto px-6 pt-12 max-w-6xl">
+        {/* Navigation Tabs */}
+        <div className="flex justify-center mb-16">
+          <div className="bg-slate-800/50 backdrop-blur-md p-1.5 rounded-2xl border border-white/5 flex gap-2">
+            <button
+              onClick={() => router.push('/')}
+              className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-slate-400 hover:text-slate-200 hover:bg-white/5 transition-all"
+            >
+              <Coins className="w-5 h-5" /> Nạp Coiz
+            </button>
+            <button
+              className="flex items-center gap-2 px-8 py-3 rounded-xl font-bold bg-blue-600 text-white shadow-lg shadow-blue-600/20 transition-all"
+            >
+              <Key className="w-5 h-5" /> Hệ thống Key
+            </button>
+          </div>
+        </div>
+
         {/* Header */}
-        <div className="mb-12 text-center md:text-left">
-          <Link href="/" className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition-colors mb-6 group">
-            <ChevronRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-            Về trang chủ
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-black italic uppercase tracking-tighter">
-            HỆ THỐNG <span className="text-cyan-500">QUẢN LÝ KEY</span>
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4 uppercase italic">
+            Hệ thống <span className="text-blue-500">Key Mod</span>
           </h1>
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            Nhận key miễn phí hoặc mua key VIP để mở khóa toàn bộ tính năng.
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-10">
