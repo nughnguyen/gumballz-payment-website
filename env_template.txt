@@ -1,0 +1,31 @@
+# ============================================
+# GumballZ Payment Gateway Environment Config
+# ============================================
+
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=your-service-role-key-here
+
+# Application URL (for generating links)
+NEXT_PUBLIC_APP_URL=https://your-domain.com
+
+# Yeumoney API (Optional - for future integration)
+# YEUMONEY_API_KEY=your-yeumoney-api-key
+# YEUMONEY_API_URL=https://api.yeumoney.com
+
+# Bank Account Info (for payment QR)
+BANK_ACCOUNT_NUMBER=your-bank-account
+BANK_NAME=VIETCOMBANK
+ACCOUNT_HOLDER_NAME=NGUYEN QUOC HUNG
+
+# Casso Webhook (existing)
+CASSO_API_KEY=your-casso-api-key
+
+# Sepay Webhook (existing)  
+SEPAY_API_KEY=your-sepay-api-key
+
+# Discord Bot (for notifications - optional)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook
+
+# Development Mode
+NODE_ENV=production

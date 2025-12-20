@@ -36,6 +36,7 @@ export default function Home() {
   const [discordId, setDiscordId] = useState("");
   const [showGuide, setShowGuide] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [showDepositSection, setShowDepositSection] = useState(false);
 
   // Helper to handle package selection
   const handleSelectPackage = (val: number) => {
@@ -116,21 +117,74 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     className="inline-flex items-center gap-2 px-3 py-1 bg-slate-800/50 border border-slate-700 rounded-full text-blue-400 text-xs font-medium mb-6"
                 >
-                    <ShieldCheck className="w-3 h-3" /> Hệ thống nạp tự động 24/7
+                    <ShieldCheck className="w-3 h-3" /> Hệ thống tự động 24/7
                 </motion.div>
                 
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white mb-6">
-                    Trung Tâm <span className="text-blue-500">Nạp Coiz</span>
+                    Trung Tâm <span className="text-blue-500">GumballZ</span>
                 </h1>
                 
                 <p className="text-slate-400 text-lg md:text-xl font-normal max-w-2xl leading-relaxed">
-                    Nạp Coiz nhanh chóng, an toàn và nhận nhiều ưu đãi hấp dẫn để trải nghiệm thế giới GumballZ trọn vẹn.
+                    Nạp Coiz cho Discord Bot hoặc lấy Key Mod Menu để trải nghiệm thế giới GumballZ trọn vẹn.
                 </p>
             </div>
         </div>
 
-        {/* Main Content */}
-        <main className="max-w-6xl mx-auto px-4 py-12 pb-24">
+        {/* Service Selection Cards */}
+        <div className="max-w-6xl mx-auto px-4 py-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                {/* Nạp Coiz Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-gradient-to-br from-blue-500/10 to-purple-500/5 border border-blue-500/20 rounded-2xl p-8 hover:border-blue-500/40 transition-all cursor-pointer group"
+                    onClick={() => setShowDepositSection(true)}
+                >
+                    <div className="flex items-start justify-between mb-4">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
+                            <Coins className="w-7 h-7 text-white" />
+                        </div>
+                        <ArrowRight className="w-6 h-6 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white mb-2">Nạp Coiz</h2>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                        Nạp tiền vào Discord Bot để mua vật phẩm, tham gia mini-game và nhiều hơn nữa
+                    </p>
+                    <div className="flex items-center gap-2 text-blue-400 text-sm font-semibold">
+                        <Wallet className="w-4 h-4" />
+                        <span>Nạp ngay</span>
+                    </div>
+                </motion.div>
+
+                {/* Mod Menu Key Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="bg-gradient-to-br from-emerald-500/10 to-green-500/5 border border-emerald-500/20 rounded-2xl p-8 hover:border-emerald-500/40 transition-all group"
+                >
+                    <Link href="/keys" className="block">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                                <Gamepad2 className="w-7 h-7 text-white" />
+                            </div>
+                            <ArrowRight className="w-6 h-6 text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Key Mod Menu</h2>
+                        <p className="text-slate-400 text-sm leading-relaxed mb-4">
+                            Lấy key miễn phí hàng ngày hoặc mua key premium để sử dụng Mod Menu
+                        </p>
+                        <div className="flex items-center gap-2 text-emerald-400 text-sm font-semibold">
+                            <CreditCard className="w-4 h-4" />
+                            <span>Lấy key ngay</span>
+                        </div>
+                    </Link>
+                </motion.div>
+            </div>
+        </div>
+
+        {/* Main Content - Nạp Coiz Section (shown when selected) */}
+        <main className={`max-w-6xl mx-auto px-4 pb-24 ${!showDepositSection ? 'hidden' : ''}`}>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 
                 {/* Left Column: ID Input & Info */}
