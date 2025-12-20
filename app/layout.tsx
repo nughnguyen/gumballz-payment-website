@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -31,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${outfit.variable} font-sans antialiased min-h-screen flex flex-col`}
       >
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow bg-slate-50">
           {children}
         </main>
         <Footer />
