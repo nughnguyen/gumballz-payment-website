@@ -57,7 +57,7 @@ export default function KeysPage() {
   const buyVipKey = async () => {
     setLoadingVIP(true);
     try {
-      const content = `VIP${Math.floor(Math.random() * 900000 + 100000)}`;
+      const content = `KEY${Math.floor(Math.random() * 900000 + 100000)}`;
       const amount = selectedDuration.price;
       
       const res = await fetch("/api/create-transaction", {

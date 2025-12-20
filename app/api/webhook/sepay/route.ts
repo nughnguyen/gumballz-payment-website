@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/app/utils/supabaseClient';
+import { serverSupabase as supabase } from '@/app/utils/supabaseServer';
 
 export async function GET() {
     return NextResponse.json({ success: true, message: 'SePay Webhook is active' });
@@ -33,9 +33,8 @@ export async function POST(request: Request) {
              const amount = txn.amount || txn.transferAmount || 0;
              const bankTransId = txn.id || txn.transactionID || txn.referenceCode || `txn_${Date.now()}`;
              
-             // Extract Token from "GUMZ {TOKEN}" - Supports "GUMZ 123456", "GUMZ:123456", "GUMZ-123456"
-             // Also supports fallback to finding any 6-digit number if prefix is missing
-             let match = description.match(/(?:GUMZ|Gumz|gumz)\s*[:.\- ]*\s*(\d+)/i);
+             // Extract Token from "GUMZXXXXXX" or "KEYXXXXXX"
+             let match = description.match(/(?:GUMZ|KEY)\s*[:.\- ]*\s*(\d+)/i);
              if (!match) {
                  // Fallback: Try to find any consecutive 6 digits
                  match = description.match(/(\d{6})/);

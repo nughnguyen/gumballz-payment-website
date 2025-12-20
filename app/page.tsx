@@ -47,7 +47,7 @@ export default function Home() {
 
     setLoading(true);
     try {
-      const content = `NAP${Math.floor(Math.random() * 900000 + 100000)}`;
+      const content = `GUMZ${discordId}`;
       const res = await fetch("/api/create-transaction", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

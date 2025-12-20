@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/app/utils/supabaseClient';
+import { serverSupabase as supabase } from '@/app/utils/supabaseServer';
 
 export async function GET() {
     return NextResponse.json({ success: true, message: 'Webhook is active' });
@@ -30,9 +30,8 @@ export async function POST(request: Request) {
              const amount = txn.amount || txn.transferAmount || 0;
              const bankTransId = txn.id || txn.transactionID || txn.referenceCode || `txn_${Date.now()}`;
              
-             // Extract Token from "GUMZ {TOKEN}" or "NAP {TOKEN}"
-             // Handles: "GUMZ 561443914" or "GUMZ561443914"
-             const match = description.match(/(?:GUMZ|NAP)\s*[+:\s]?\s*(\d+)/i);
+             // Extract Token from "GUMZ" or "KEY"
+             const match = description.match(/(?:GUMZ|KEY)\s*[+:\s]?\s*(\d+)/i);
              let token = match ? match[1] : null;
 
              if (token) {
