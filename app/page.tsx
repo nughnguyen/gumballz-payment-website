@@ -8,7 +8,6 @@ import {
   Key, 
   ChevronRight, 
   Shield, 
-  Star,
   Settings,
   ArrowRight
 } from "lucide-react";
@@ -119,7 +118,7 @@ export default function Home() {
               </div>
               <div className="p-6 bg-slate-800/30 border border-white/5 rounded-2xl flex items-center gap-4">
                 <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-                  <Star className="w-6 h-6 text-emerald-500" />
+                  <Key className="w-6 h-6 text-emerald-500" />
                 </div>
                 <div>
                   <div className="font-bold text-white text-sm">Xử lý tự động</div>
