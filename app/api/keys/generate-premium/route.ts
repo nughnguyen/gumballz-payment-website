@@ -12,15 +12,15 @@ const supabase = createClient(
 // Helper function to generate key with double encoding
 // Result: GUMBALLZ-{first 10 chars}
 function generateKey(): string {
-  const now = new Date();
-  const dateStr = now.toISOString();
+  // Use timestamp and random string to ensure uniqueness
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 7).toUpperCase();
   
-  const rawData = `GumballZ-NguyenQuocHung-${dateStr}`;
-  const firstEncode = Buffer.from(rawData).toString('base64url');
-  const secondEncode = Buffer.from(firstEncode).toString('base64url');
-  const shortKey = secondEncode.substring(0, 10);
+  // Combine them to get a unique identifier
+  const uniqueId = `${timestamp}${random}`;
   
-  return `GUMBALLZ-${shortKey}`;
+  // Return the formatted key
+  return `GUMBALLZ-${uniqueId}`;
 }
 
 // Generate random string for yeumoney short link

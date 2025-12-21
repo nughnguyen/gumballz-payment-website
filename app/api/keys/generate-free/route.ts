@@ -15,15 +15,15 @@ const YEULINK_API_URL = "https://yeulink.com/st";
 // Helper function to generate key with double encoding
 // Result: GUMFREE-{first 10 chars}
 function generateKey(): string {
-  const now = new Date();
-  const dateStr = now.toISOString();
+  // Use timestamp and random string to ensure uniqueness
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 7).toUpperCase();
   
-  const rawData = `GumballZ-NguyenQuocHung-${dateStr}`;
-  const firstEncode = Buffer.from(rawData).toString('base64url');
-  const secondEncode = Buffer.from(firstEncode).toString('base64url');
-  const shortKey = secondEncode.substring(0, 10);
+  // Combine them to get a unique identifier
+  const uniqueId = `${timestamp}${random}`;
   
-  return `GUMFREE-${shortKey}`;
+  // Return the formatted key
+  return `GUMFREE-${uniqueId}`;
 }
 
 // Get today's date string in Vietnam timezone (YYYY-MM-DD)
@@ -112,7 +112,7 @@ export async function POST() {
 
     if (insertError) {
       console.error('Insert error:', insertError);
-      return NextResponse.json({ success: false, error: "Lỗi tạo dữ liệu trong Database" }, { status: 500 });
+      return NextResponse.json({ success: false, error: `Lỗi tạo dữ liệu trong Database: ${insertError.message}` }, { status: 500 });
     }
 
     return NextResponse.json({
