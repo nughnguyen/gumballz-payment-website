@@ -36,8 +36,9 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { secret, config_name, config_data, admin_name } = body;
 
-        // Simple secret check
-        if(secret !== "gumballzAdminSecret123") {
+        // Secret check using Environment Variable
+        const validSecret = process.env.API_SECRET_KEY || "default_insecure_secret";
+        if (secret !== validSecret) {
              return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
         }
 

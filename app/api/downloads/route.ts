@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { secret, title, description, image_url, download_url, version, file_size } = body;
 
-        if(secret !== "gumballzAdminSecret123") {
+        const validSecret = process.env.API_SECRET_KEY || "default_insecure_secret";
+        if (secret !== validSecret) {
              return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
         }
 

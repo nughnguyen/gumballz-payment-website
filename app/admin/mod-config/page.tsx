@@ -110,7 +110,7 @@ export default function ModConfigAdmin() {
                   type="password" 
                   value={secret}
                   onChange={(e) => setSecret(e.target.value)}
-                  placeholder="gumballzAdminSecret123"
+                  placeholder="Nhập Secret Key..."
                   className="bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 w-full focus:border-blue-500 outline-none pl-10" 
                 />
                 <Lock className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
