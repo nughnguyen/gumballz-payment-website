@@ -97,9 +97,18 @@ export async function POST() {
       .single();
 
     if (existingKey) {
-       // SECURITY FIX: Nếu là key cũ (không có token xác thực), xóa đi để tạo key mới an toàn hơn
-       if (!existingKey.verification_token) {
+       // SECURITY CHECK: Kiểm tra xem link hiện tại có bị lộ key không?
+       // Nếu link chứa "GUMFREE" hoặc đường dẫn cũ "/key/free/", nghĩa là KEY ĐANG BỊ LỘ.
+       const isExposed = existingKey.destination_url && (
+           existingKey.destination_url.includes("GUMFREE") || 
+           existingKey.destination_url.includes("/key/free/")
+       );
+
+       // Nếu bị lộ hoặc thiếu token -> XÓA NGAY LẬP TỨC
+       if (isExposed || !existingKey.verification_token) {
+           console.log("Phát hiện key không an toàn, đang xóa để tạo lại...");
            await supabase.from('mod_keys').delete().eq('id', existingKey.id);
+           // Code sẽ tự động chạy xuống dưới để tạo Insert key mới
        } else {
            return NextResponse.json({
             success: true,
