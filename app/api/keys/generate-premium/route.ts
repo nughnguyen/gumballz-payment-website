@@ -9,21 +9,18 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY!
 );
 
-// Helper function to generate key with GUMBALLZ prefix
-// Format: GUMBALLZ-{MD5 Hex Uppercase}
-// Input: NGUYENQUOCHUNGVIPPROMAX + IP + Time
-function generateKey(ip: string): string {
-  const time = new Date().toISOString();
-  // Using user's requested VIP secret string
-  const rawData = `NGUYENQUOCHUNGVIPPROMAX-${ip}-${time}`;
+// Helper function to generate key with double encoding
+// Result: GUMBALLZ-{first 10 chars}
+function generateKey(): string {
+  // Use timestamp and random string to ensure uniqueness
+  const timestamp = Date.now().toString(36).toUpperCase();
+  const random = Math.random().toString(36).substring(2, 7).toUpperCase();
   
-  // MD5 Hash UpperCase for Premium
-  const hash = crypto.createHash('md5').update(rawData).digest('hex').toUpperCase();
+  // Combine them to get a unique identifier
+  const uniqueId = `${timestamp}${random}`;
   
-  // Take first 16 chars for Premium
-  const keySuffix = hash.substring(0, 16);
-  
-  return `GUMBALLZ-${keySuffix}`;
+  // Return the formatted key
+  return `GUMBALLZ-${uniqueId}`;
 }
 
 // Generate random string for yeumoney short link
@@ -42,13 +39,9 @@ export async function POST(request: NextRequest) {
         error: 'Số tiền không hợp lệ'
       }, { status: 400 });
     }
-    
-    // Get User IP
-    let ip = request.headers.get("x-forwarded-for") || "unknown";
-    if (ip.includes(',')) ip = ip.split(',')[0];
 
-    // Generate premium key using MD5
-    const keyValue = generateKey(ip);
+    // Generate premium key
+    const keyValue = generateKey();
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + days);
 
@@ -59,10 +52,6 @@ export async function POST(request: NextRequest) {
     const shortLink = `https://yeumoney.com/${shortId}`;
     
     // The destination URL will show the key
-    // For premium, we currently keep it simple as user paid.
-    // If needed we can add Token here too, but prioritized user request for Format first.
-    // User requested "destinationUrl... embedding premium key" (reverted in previous steps).
-    // So keeping it direct.
     const destinationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/keys/claim?key=${encodeURIComponent(keyValue)}`;
 
     // Insert key into database
