@@ -54,23 +54,23 @@ export default function HubPage() {
             <span>Secure Ecosystem Hub</span>
           </motion.div>
           
-          <motion.h1 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-6"
-          >
-            GumballZ <span className="text-blue-600">System</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl text-slate-500 font-medium leading-relaxed"
-          >
-            Trung tâm quản lý, thanh toán và phát triển công cụ cho hệ sinh thái GumballZ.
-          </motion.p>
+            <motion.h1 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-6"
+            >
+              GumballZ <span className="text-blue-600">System</span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl text-slate-500 font-medium leading-relaxed"
+            >
+              Trung tâm quản lý, thanh toán và phát triển công cụ cho hệ sinh thái GumballZ.
+            </motion.p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">

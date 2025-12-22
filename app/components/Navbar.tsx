@@ -8,6 +8,7 @@ import {
   Home, 
   ShieldCheck,
   Menu,
+  Download,
   X 
 } from "lucide-react";
 import { useState } from "react";
@@ -21,6 +22,7 @@ export default function Navbar() {
     { name: "Trang Chủ", href: "/", icon: <Home className="w-5 h-5" /> },
     { name: "Cửa Hàng", href: "/store", icon: <ShoppingCart className="w-5 h-5" /> },
     { name: "Lấy Key", href: "/keys", icon: <Key className="w-5 h-5" /> },
+    { name: "Tải Xuống", href: "/downloads", icon: <Download className="w-5 h-5" /> }, // Placeholder href
   ];
 
   return (
@@ -30,10 +32,10 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 font-black text-xl text-slate-900">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-                <ShieldCheck className="w-5 h-5" />
+              <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center">
+                 <img src="/logo.png" alt="Logo" className="w-full h-full object-cover" />
               </div>
-              <span>GumballZ<span className="text-blue-600">Hub</span></span>
+              <span>GumballZ<span className="text-blue-600">System</span></span>
             </Link>
 
             {/* Desktop Nav */}
