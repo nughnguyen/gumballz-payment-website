@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
 export const dynamic = 'force-dynamic';
 
@@ -12,18 +13,19 @@ const supabase = createClient(
 const YEULINK_TOKEN = "16ad669a-9404-48d7-aa63-8522b4014e11";
 const YEULINK_API_URL = "https://yeulink.com/st";
 
-// Helper function to generate key with double encoding
-// Result: GUMFREE-{first 10 chars}
-function generateKey(): string {
-  // Use timestamp and random string to ensure uniqueness
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random = Math.random().toString(36).substring(2, 7).toUpperCase();
+// Helper function to generate key based on User IP and Time
+// Format: GUMFREE-{MD5 Hash of NGUYENQUOCHUNG+IP+Time}
+function generateKey(ip: string): string {
+  const time = new Date().toISOString(); // Include Date + Time
+  const rawData = `NGUYENQUOCHUNGFREE-${ip}-${time}`;
   
-  // Combine them to get a unique identifier
-  const uniqueId = `${timestamp}${random}`;
+  // Create MD5 hash (Hex lowercase)
+  const hash = crypto.createHash('md5').update(rawData).digest('hex');
   
-  // Return the formatted key
-  return `GUMFREE-${uniqueId}`;
+  // Take first 12 characters
+  const keySuffix = hash.substring(0, 12);
+  
+  return `GUMFREE-${keySuffix}`;
 }
 
 // Get today's date string in Vietnam timezone (YYYY-MM-DD)
@@ -69,27 +71,25 @@ async function createYeulinkShortLink(destinationUrl: string): Promise<string> {
   }
 }
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
     const today = getTodayDateString();
     
-    // AUTO-CLEANUP: Delete expired keys to optimize database
-    // This runs asynchronously and doesn't block the main request
+    // Get User IP
+    let ip = req.headers.get("x-forwarded-for") || "unknown";
+    if (ip.includes(',')) ip = ip.split(',')[0]; // Take first IP if multiple
+
+    // AUTO-CLEANUP: Delete expired keys
     (async () => {
         try {
-            const { error } = await supabase
-                .from('mod_keys')
-                .delete()
-                .lt('expires_at', new Date().toISOString());
-            if (error) console.error("Auto-cleanup error:", error);
+            await supabase.from('mod_keys').delete().lt('expires_at', new Date().toISOString());
         } catch (e) {
             console.error("Auto-cleanup exception:", e);
         }
     })();
-
     
     // Check if a free key already exists for today
-    const { data: existingKey, error: checkError } = await supabase
+    const { data: existingKey } = await supabase
       .from('mod_keys')
       .select('*')
       .eq('key_type', 'FREE')
@@ -97,18 +97,16 @@ export async function POST() {
       .single();
 
     if (existingKey) {
-       // SECURITY CHECK: Kiểm tra xem link hiện tại có bị lộ key không?
-       // Nếu link chứa "GUMFREE" hoặc đường dẫn cũ "/key/free/", nghĩa là KEY ĐANG BỊ LỘ.
+       // SECURITY CHECK: Check if link is exposed (contains GUMFREE or old path)
        const isExposed = existingKey.destination_url && (
            existingKey.destination_url.includes("GUMFREE") || 
            existingKey.destination_url.includes("/key/free/")
        );
 
-       // Nếu bị lộ hoặc thiếu token -> XÓA NGAY LẬP TỨC
+       // If exposed or no token -> DELETE and Re-create
        if (isExposed || !existingKey.verification_token) {
-           console.log("Phát hiện key không an toàn, đang xóa để tạo lại...");
+           console.log("Deleting insecure key...");
            await supabase.from('mod_keys').delete().eq('id', existingKey.id);
-           // Code sẽ tự động chạy xuống dưới để tạo Insert key mới
        } else {
            return NextResponse.json({
             success: true,
@@ -119,12 +117,12 @@ export async function POST() {
        }
     }
 
-    // 2. Nếu chưa có, tạo mới
-    const keyValue = generateKey();
-    const verificationToken = crypto.randomUUID(); // Generate secure token
+    // 2. Create NEW Secure Key
+    const keyValue = generateKey(ip);
+    const verificationToken = crypto.randomUUID(); // Secure Token
     const expiresAt = getEndOfDayVN();
     
-    // New Destination URL: points to receive page with token, NOT key
+    // URL points to Token, NOT Key
     const destinationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/key/receive?token=${verificationToken}`;
     const shortLink = await createYeulinkShortLink(destinationUrl);
 
@@ -140,14 +138,14 @@ export async function POST() {
         usage_count: 0,
         short_link: shortLink,
         destination_url: destinationUrl,
-        verification_token: verificationToken // Store token
+        verification_token: verificationToken // IMPORTANT
       })
       .select()
       .single();
 
     if (insertError) {
       console.error('Insert error:', insertError);
-      return NextResponse.json({ success: false, error: `Lỗi tạo dữ liệu trong Database: ${insertError.message}` }, { status: 500 });
+      return NextResponse.json({ success: false, error: `Lỗi Database: ${insertError.message}` }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -159,6 +157,6 @@ export async function POST() {
 
   } catch (error) {
     console.error('Fatal error:', error);
-    return NextResponse.json({ success: false, error: "Lỗi hệ thống nghiêm trọng" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Lỗi hệ thống" }, { status: 500 });
   }
 }

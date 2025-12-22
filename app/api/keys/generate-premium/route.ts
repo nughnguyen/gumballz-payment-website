@@ -9,18 +9,19 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY!
 );
 
-// Helper function to generate key with double encoding
-// Result: GUMBALLZ-{first 10 chars}
-function generateKey(): string {
-  // Use timestamp and random string to ensure uniqueness
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random = Math.random().toString(36).substring(2, 7).toUpperCase();
+// Helper function to generate key with GUMBALLZ prefix
+// Format: GUMBALLZ-{MD5 Hex Uppercase}
+function generateKey(ip: string): string {
+  const time = new Date().toISOString();
+  const rawData = `NGUYENQUOCHUNGVIPPROMAX-${ip}-${time}`;
   
-  // Combine them to get a unique identifier
-  const uniqueId = `${timestamp}${random}`;
+  // MD5 Hash UpperCase for Premium
+  const hash = crypto.createHash('md5').update(rawData).digest('hex').toUpperCase();
   
-  // Return the formatted key
-  return `GUMBALLZ-${uniqueId}`;
+  // Take first 16 chars for Premium
+  const keySuffix = hash.substring(0, 16);
+  
+  return `GUMBALLZ-${keySuffix}`;
 }
 
 // Generate random string for yeumoney short link
@@ -39,9 +40,13 @@ export async function POST(request: NextRequest) {
         error: 'Số tiền không hợp lệ'
       }, { status: 400 });
     }
+    
+    // Get User IP
+    let ip = request.headers.get("x-forwarded-for") || "unknown";
+    if (ip.includes(',')) ip = ip.split(',')[0];
 
-    // Generate premium key
-    const keyValue = generateKey();
+    // Generate premium key using MD5
+    const keyValue = generateKey(ip);
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + days);
 
