@@ -163,21 +163,21 @@ function PaymentCard() {
           className="space-y-6"
         >
           {/* Amount Card */}
-          <div className="clay-card p-8 text-center bg-gradient-to-br from-cyan-500 to-cyan-600 relative overflow-hidden">
+          <div className="clay-card p-6 text-center bg-gradient-to-br from-cyan-500 to-cyan-600 relative overflow-hidden">
             <div className="relative z-10">
-              <div className="text-white/80 text-xs font-black uppercase tracking-wider mb-2">Số tiền thanh toán</div>
-              <div className="text-5xl font-black text-white mb-4">{formattedAmount}</div>
+              <div className="text-white/70 text-[10px] font-black uppercase tracking-wider mb-1">Số tiền</div>
+              <div className="text-3xl md:text-4xl font-black text-white mb-3">{formattedAmount}</div>
               
               {status !== "success" && timeLeft !== null && (
-                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border-2 border-white/30">
-                  <Clock className={`w-4 h-4 ${timeLeft < 60 ? "text-yellow-300 animate-pulse" : "text-white"}`} />
-                  <span className="text-xs font-bold text-white">Hết hạn sau:</span>
-                  <span className="font-mono font-black text-white">{formatTime(timeLeft)}</span>
+                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border-2 border-white/30">
+                  <Clock className={`w-3.5 h-3.5 ${timeLeft < 60 ? "text-yellow-300 animate-pulse" : "text-white"}`} />
+                  <span className="text-[10px] font-bold text-white/90">Hết hạn:</span>
+                  <span className="font-mono font-black text-white text-sm">{formatTime(timeLeft)}</span>
                 </div>
               )}
             </div>
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl" />
           </div>
 
           {/* Content Grid */}
@@ -228,16 +228,40 @@ function PaymentCard() {
                     <CreditCard className="w-5 h-5 text-cyan-500" />
                     Mã QR Thanh Toán
                   </h3>
-                  <div className="relative">
-                    <div className={`p-4 bg-white border-[3px] border-slate-900 rounded-2xl shadow-[4px_4px_0px_0px_#1E293B] ${isExpired ? "opacity-20 grayscale" : ""}`}>
+                  <motion.div 
+                    className="relative"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.div 
+                      className={`p-4 bg-white border-[3px] border-slate-900 rounded-2xl shadow-[4px_4px_0px_0px_#1E293B] ${isExpired ? "opacity-20 grayscale" : ""}`}
+                      animate={!isExpired && status !== "success" ? {
+                        boxShadow: [
+                          "4px 4px 0px 0px #1E293B",
+                          "6px 6px 0px 0px #06B6D4",
+                          "4px 4px 0px 0px #1E293B"
+                        ]
+                      } : {}}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse"
+                      }}
+                    >
                       <img src={qrUrl} alt="QR" className="w-full h-auto object-contain" />
-                    </div>
+                    </motion.div>
                     {isExpired && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="bg-red-500 text-white font-black px-6 py-3 rounded-xl border-[3px] border-slate-900 shadow-[4px_4px_0px_0px_#1E293B] rotate-[-12deg] tracking-widest">HẾT HẠN</span>
-                      </div>
+                      <motion.div 
+                        className="absolute inset-0 flex items-center justify-center"
+                        initial={{ scale: 0, rotate: 0 }}
+                        animate={{ scale: 1, rotate: -12 }}
+                        transition={{ type: "spring", stiffness: 200 }}
+                      >
+                        <span className="bg-red-500 text-white font-black px-6 py-3 rounded-xl border-[3px] border-slate-900 shadow-[4px_4px_0px_0px_#1E293B] tracking-widest">HẾT HẠN</span>
+                      </motion.div>
                     )}
-                  </div>
+                  </motion.div>
                 </div>
               )}
             </div>

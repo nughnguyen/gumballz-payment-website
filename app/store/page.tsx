@@ -246,9 +246,11 @@ export default function StorePage() {
                     </div>
                     <div className="grid grid-cols-4 gap-2">
                       {predefinedAmounts.map((item) => (
-                        <button 
+                        <motion.button 
                           key={item.value} 
                           onClick={() => setAmount(item.value)}
+                          whileHover={{ scale: 1.05, y: -2 }}
+                          whileTap={{ scale: 0.95, y: 0 }}
                           className={`py-2 rounded-xl border-[3px] text-xs font-bold transition-all ${
                             amount === item.value 
                             ? "bg-cyan-500 border-slate-900 text-white shadow-[3px_3px_0px_0px_#1E293B]" 
@@ -256,7 +258,7 @@ export default function StorePage() {
                           }`}
                         >
                           {item.label}
-                        </button>
+                        </motion.button>
                       ))}
                     </div>
                   </div>
