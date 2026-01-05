@@ -181,7 +181,7 @@ function PaymentCard() {
           className="space-y-6"
         >
           {/* Content Grid - 2 Columns */}
-          <div className="grid lg:grid-cols-[400px_1fr] gap-6 items-start">
+          <div className="grid lg:grid-cols-[500px_1fr] gap-8 items-start">
             {/* Left Column: QR + Download + Amount */}
             <div className="space-y-6">
               {/* QR Code Card */}
