@@ -17,7 +17,8 @@ import {
   Gem,
   Zap,
   Rocket,
-  Trophy
+  Trophy,
+  Clock
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -46,8 +47,8 @@ export default function HubPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-100 border-[3px] border-slate-900 rounded-full shadow-[3px_3px_0px_0px_#1E293B] font-bold text-sm"
                 >
-                  <Sparkles className="w-4 h-4 text-cyan-600" />
-                  <span className="text-slate-900">Mới: Tính năng Mod Menu được hỗ trợ AI</span>
+                  <Bot className="w-4 h-4 text-cyan-600" />
+                  <span className="text-slate-900">Discord Bot với 10+ Minigames</span>
                 </motion.div>
 
                 {/* Headline */}
@@ -57,9 +58,9 @@ export default function HubPage() {
                   transition={{ delay: 0.1 }}
                   className="text-5xl md:text-7xl font-black leading-tight"
                 >
-                  Chinh Phục Game, <br />
-                  <span className="text-cyan-500">Bất Cứ Lúc Nào,</span><br />
-                  <span className="text-slate-900">Mọi Nơi!</span>
+                  Nền Tảng <br />
+                  <span className="text-cyan-500">Cộng Đồng</span><br />
+                  <span className="text-slate-900">Toàn Diện</span>
                 </motion.h1>
                 
                 <motion.p 
@@ -68,8 +69,8 @@ export default function HubPage() {
                   transition={{ delay: 0.2 }}
                   className="text-xl text-slate-600 leading-relaxed max-w-xl"
                 >
-                  Tham gia cùng hàng triệu game thủ trên toàn thế giới. Truy cập 10,000+ 
-                  tính năng Mod được dạy bởi các chuyên gia hàng đầu.
+                  Hệ thống tích hợp Discord Bot, thanh toán tự động và quản lý dịch vụ. 
+                  Mang đến trải nghiệm hoàn hảo cho cộng đồng của bạn.
                 </motion.p>
 
                 {/* Buttons */}
@@ -80,17 +81,17 @@ export default function HubPage() {
                   className="flex flex-wrap gap-4"
                 >
                   <Link
-                    href="/store"
+                    href="/keys"
                     className="clay-button inline-flex items-center gap-2"
                   >
                     <Sparkles className="w-5 h-5" />
-                    Bắt Đầu Miễn Phí
+                    Dùng Thử Miễn Phí
                   </Link>
                   <Link
-                    href="/downloads"
+                    href="#features"
                     className="clay-button-secondary"
                   >
-                    Tải Xuống
+                    Tìm Hiểu Thêm
                   </Link>
                 </motion.div>
 
@@ -102,16 +103,16 @@ export default function HubPage() {
                   className="flex flex-wrap gap-6 pt-4"
                 >
                   <div className="text-center">
-                    <div className="text-3xl font-black text-slate-900">10K+</div>
-                    <div className="text-sm text-slate-600 font-medium">Tính năng</div>
+                    <div className="text-3xl font-black text-slate-900">10+</div>
+                    <div className="text-sm text-slate-600 font-medium">Minigames</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-black text-slate-900">2M+</div>
-                    <div className="text-sm text-slate-600 font-medium">Game thủ</div>
+                    <div className="text-3xl font-black text-slate-900">24/7</div>
+                    <div className="text-sm text-slate-600 font-medium">Tự Động Hóa</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-black text-slate-900">500+</div>
-                    <div className="text-sm text-slate-600 font-medium">Người hướng dẫn</div>
+                    <div className="text-3xl font-black text-slate-900">100%</div>
+                    <div className="text-sm text-slate-600 font-medium">Miễn Phí</div>
                   </div>
                 </motion.div>
               </div>
@@ -177,11 +178,11 @@ export default function HubPage() {
             className="container mx-auto"
           >
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-                Tính Năng <span className="text-cyan-500">Phổ Biến</span>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4" id="features">
+                Tính Năng <span className="text-cyan-500">Nổi Bật</span>
               </h2>
-              <p className="text-lg text-slate-600">
-                Khám phá các mod menu và tools được yêu thích nhất
+              <p className="text-lg text-slate-600 font-medium">
+                Khám phá các tính năng Discord Bot và hệ thống tự động hóa
               </p>
             </div>
 
@@ -197,23 +198,23 @@ export default function HubPage() {
                       <Gamepad2 className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Hack Map</h3>
-                      <p className="text-sm text-slate-600">by GumballZ Team</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Minigames Hub</h3>
+                      <p className="text-sm text-slate-600">10+ trò chơi đa dạng</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">4.9</span>
+                  <div className="flex items-center gap-1 px-3 py-1 bg-green-200 border-2 border-slate-900 rounded-full">
+                    <Sparkles className="w-4 h-4 text-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">HOT</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Mở khóa toàn bộ bản đồ với tầm nhìn vô hạn và phát hiện kẻ địch từ xa.
+                <p className="text-slate-600 text-sm font-medium">
+                  Câu cá, nối từ, bầu cua và nhiều minigame thú vị khác. Chơi cùng bạn bè, nhận phần thưởng.
                 </p>
                 <Link
-                  href="/store"
+                  href="/keys"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Chơi Ngay
                 </Link>
               </motion.div>
 
@@ -225,26 +226,26 @@ export default function HubPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-purple-300 border-[3px] border-slate-900 rounded-2xl shadow-[3px_3px_0px_0px_#1E293B] flex items-center justify-center">
-                      <Bot className="w-8 h-8 text-slate-900" />
+                      <Gem className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Auto Skill</h3>
-                      <p className="text-sm text-slate-600">by Pro Players</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Hệ Thống Coiz</h3>
+                      <p className="text-sm text-slate-600">Tiền ảo & phần thưởng</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">4.8</span>
+                    <Trophy className="w-4 h-4 text-slate-900 fill-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">NEW</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Tự động sử dụng kỹ năng với combo hoàn hảo mỗi lần.
+                <p className="text-slate-600 text-sm font-medium">
+                  Kiếm tiền ảo Coiz khi chơi game, đổi key VIP, và mua dịch vụ premium.
                 </p>
                 <Link
                   href="/store"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Nạp Coiz
                 </Link>
               </motion.div>
 
@@ -256,26 +257,26 @@ export default function HubPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-yellow-300 border-[3px] border-slate-900 rounded-2xl shadow-[3px_3px_0px_0px_#1E293B] flex items-center justify-center">
-                      <ShieldCheck className="w-8 h-8 text-slate-900" />
+                      <Zap className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Anti-Ban</h3>
-                      <p className="text-sm text-slate-600">by Security Team</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Auto Payment</h3>
+                      <p className="text-sm text-slate-600">Thanh toán tự động QR</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">5.0</span>
+                  <div className="flex items-center gap-1 px-3 py-1 bg-cyan-200 border-2 border-slate-900 rounded-full">
+                    <Rocket className="w-4 h-4 text-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">FAST</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Bảo vệ tài khoản của bạn với công nghệ anti-detect tiên tiến nhất.
+                <p className="text-slate-600 text-sm font-medium">
+                  Quét QR, chuyển khoản và nhận key tự động trong vài giây. An toàn, tiện lợi.
                 </p>
                 <Link
-                  href="/store"
+                  href="/history"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Tra Cứu
                 </Link>
               </motion.div>
 
@@ -288,26 +289,27 @@ export default function HubPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-cyan-200 border-[3px] border-slate-900 rounded-2xl shadow-[3px_3px_0px_0px_#1E293B] flex items-center justify-center">
-                      <Rocket className="w-8 h-8 text-slate-900" />
+                      <Users className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Speed Boost</h3>
-                      <p className="text-sm text-slate-600">by GumballZ Team</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Cộng Đồng</h3>
+                      <p className="text-sm text-slate-600">Discord Server hoạt động</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">4.7</span>
+                  <div className="flex items-center gap-1 px-3 py-1 bg-purple-200 border-2 border-slate-900 rounded-full">
+                    <Users className="w-4 h-4 text-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">ACTIVE</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Tăng tốc độ di chuyển và giảm cooldown kỹ năng để thống trị trận đấu.
+                <p className="text-slate-600 text-sm font-medium">
+                  Tham gia cộng đồng sôi động, kết bạn, chơi game và nhận hỗ trợ từ admin 24/7.
                 </p>
                 <Link
-                  href="/store"
+                  href="https://discord.gg/gumballz"
+                  target="_blank"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Tham Gia
                 </Link>
               </motion.div>
 
@@ -319,26 +321,27 @@ export default function HubPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-green-300 border-[3px] border-slate-900 rounded-2xl shadow-[3px_3px_0px_0px_#1E293B] flex items-center justify-center">
-                      <Trophy className="w-8 h-8 text-slate-900" />
+                      <ShieldCheck className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Rank Booster</h3>
-                      <p className="text-sm text-slate-600">by Elite Squad</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Hỗ Trợ 24/7</h3>
+                      <p className="text-sm text-slate-600">Luôn sẵn sàng giúp đỡ</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">4.9</span>
+                  <div className="flex items-center gap-1 px-3 py-1 bg-cyan-200 border-2 border-slate-900 rounded-full">
+                    <Clock className="w-4 h-4 text-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">24/7</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Hỗ trợ leo rank nhanh chóng với các chiến thuật và công cụ tối ưu.
+                <p className="text-slate-600 text-sm font-medium">
+                  Đội ngũ hỗ trợ luôn sẵn sàng giải đáp thắc mắc và xử lý sự cố nhanh chóng.
                 </p>
                 <Link
-                  href="/store"
+                  href="https://discord.gg/gumballz"
+                  target="_blank"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Liên Hệ
                 </Link>
               </motion.div>
 
@@ -350,26 +353,26 @@ export default function HubPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-orange-300 border-[3px] border-slate-900 rounded-2xl shadow-[3px_3px_0px_0px_#1E293B] flex items-center justify-center">
-                      <Gem className="w-8 h-8 text-slate-900" />
+                      <BookOpen className="w-8 h-8 text-slate-900" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 text-lg">Skin Unlocker</h3>
-                      <p className="text-sm text-slate-600">by Style Masters</p>
+                      <h3 className="font-bold text-slate-900 text-lg">Tài Liệu</h3>
+                      <p className="text-sm text-slate-600">Hướng dẫn chi tiết</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 px-3 py-1 bg-yellow-200 border-2 border-slate-900 rounded-full">
-                    <Star className="w-4 h-4 text-slate-900 fill-slate-900" />
-                    <span className="text-sm font-bold text-slate-900">5.0</span>
+                  <div className="flex items-center gap-1 px-3 py-1 bg-green-200 border-2 border-slate-900 rounded-full">
+                    <BookOpen className="w-4 h-4 text-slate-900" />
+                    <span className="text-sm font-bold text-slate-900">DOCS</span>
                   </div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Mở khóa tất cả skin và trang phục cao cấp mà không cần mất tiền.
+                <p className="text-slate-600 text-sm font-medium">
+                  Tài liệu hướng dẫn đầy đủ, dễ hiểu và cập nhật liên tục cho tất cả tính năng.
                 </p>
                 <Link
-                  href="/store"
+                  href="/downloads"
                   className="w-full py-2.5 bg-cyan-500 text-white font-bold rounded-xl border-[3px] border-slate-900 shadow-[3px_3px_0px_0px_#1E293B] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0px_0px_#1E293B] transition-all text-center block text-sm"
                 >
-                  Mở Khóa Ngay
+                  Xem Docs
                 </Link>
               </motion.div>
             </div>
