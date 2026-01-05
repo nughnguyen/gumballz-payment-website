@@ -180,9 +180,9 @@ function PaymentCard() {
           animate={{ opacity: 1, y: 0 }}
           className="space-y-6"
         >
-          {/* Content Grid - 2 Columns */}
-          <div className="grid lg:grid-cols-[500px_1fr] gap-8 items-start">
-            {/* Left Column: QR + Download + Amount */}
+          {/* Content Grid - 2 Columns: QR + Payment Info */}
+          <div className="grid lg:grid-cols-[350px_1fr] gap-8 items-start">
+            {/* Left Column: QR + Download Button */}
             <div className="space-y-6">
               {/* QR Code Card */}
               <div className="clay-card p-8">
@@ -268,24 +268,6 @@ function PaymentCard() {
                   </div>
                 )}
               </div>
-
-              {/* Amount Card */}
-              <div className="clay-card p-6 text-center bg-gradient-to-br from-cyan-500 to-cyan-600 relative overflow-hidden">
-                <div className="relative z-10">
-                  <div className="text-slate-900 text-[10px] font-black uppercase tracking-wider mb-1">Số tiền thanh toán</div>
-                  <div className="text-3xl md:text-4xl font-black text-slate-900 mb-3">{formattedAmount}</div>
-                  
-                  {status !== "success" && timeLeft !== null && (
-                    <div className="inline-flex items-center gap-2 bg-white/30 backdrop-blur-md px-3 py-1.5 rounded-full border-2 border-slate-900/30">
-                      <Clock className={`w-3.5 h-3.5 ${timeLeft < 60 ? "text-red-600 animate-pulse" : "text-slate-900"}`} />
-                      <span className="text-[10px] font-bold text-slate-900">Hết hạn sau:</span>
-                      <span className="font-mono font-black text-slate-900 text-sm">{formatTime(timeLeft)}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl" />
-              </div>
             </div>
 
             {/* Right Column: Payment Details */}
@@ -333,6 +315,30 @@ function PaymentCard() {
               </div>
             )}
           </div>
+
+          {/* Amount Card - Full Width Horizontal Rectangle */}
+          {status !== "success" && (
+            <div className="clay-card p-6 bg-gradient-to-br from-cyan-500 to-cyan-600 relative overflow-hidden">
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <div>
+                    <div className="text-slate-900 text-xs font-black uppercase tracking-wider mb-1">Số tiền thanh toán</div>
+                    <div className="text-4xl md:text-5xl font-black text-slate-900">{formattedAmount}</div>
+                  </div>
+                  
+                  {timeLeft !== null && (
+                    <div className="flex items-center gap-2 bg-white/30 backdrop-blur-md px-4 py-2 rounded-full border-2 border-slate-900/30">
+                      <Clock className={`w-4 h-4 ${timeLeft < 60 ? "text-red-600 animate-pulse" : "text-slate-900"}`} />
+                      <span className="text-xs font-bold text-slate-900">Hết hạn sau:</span>
+                      <span className="font-mono font-black text-slate-900 text-lg">{formatTime(timeLeft)}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            </div>
+          )}
         </motion.div>
 
         {/* Footer Note */}
