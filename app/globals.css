@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
+/* Claymorphism Design System */
 :root {
-  --background: #FFFFFF;
-  --foreground: #0F172A;
-  --primary: #3B82F6;
-  --primary-light: #EFF6FF;
+  --background: #F8FAFC;
+  --foreground: #1E293B;
+  --primary: #06B6D4;
+  --primary-dark: #0891B2;
+  --secondary: #BFDBFE;
+  --accent-pink: #FBCFE8;
+  --accent-purple: #DDD6FE;
+  --accent-yellow: #FDE68A;
+  --accent-orange: #FFF9F5;
+  --border-dark: #1E293B;
+  --text-muted: #64748B;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-sky-500: #0EA5E9;
-  --font-sans: var(--font-outfit), ui-sans-serif, system-ui;
+  --color-primary: var(--primary);
+  --font-sans: var(--font-outfit), 'Quicksand', 'Nunito', ui-sans-serif, system-ui;
 }
 
 body {
@@ -20,12 +28,128 @@ body {
   font-family: var(--font-sans);
 }
 
-.sky-gradient {
-  background: linear-gradient(135deg, #3B82F6 0%, #0EA5E9 100%);
+/* Claymorphism Card */
+.clay-card {
+  background: white;
+  border: 3px solid var(--border-dark);
+  border-radius: 32px;
+  box-shadow: 6px 6px 0px 0px var(--border-dark);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sky-glass {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(59, 130, 246, 0.1);
+.clay-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 4px 4px 0px 0px var(--border-dark);
+}
+
+/* Claymorphism Button */
+.clay-button {
+  background: var(--primary);
+  color: white;
+  border: 3px solid var(--border-dark);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0px 0px var(--border-dark);
+  font-weight: 700;
+  padding: 12px 32px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.clay-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--border-dark);
+}
+
+.clay-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px 0px var(--border-dark);
+}
+
+/* Secondary Button */
+.clay-button-secondary {
+  background: white;
+  color: var(--border-dark);
+  border: 3px solid var(--border-dark);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0px 0px var(--border-dark);
+  font-weight: 700;
+  padding: 12px 32px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.clay-button-secondary:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--border-dark);
+}
+
+/* Badge/Pill */
+.clay-badge {
+  background: var(--primary);
+  color: white;
+  border: 2px solid var(--border-dark);
+  border-radius: 24px;
+  box-shadow: 3px 3px 0px 0px var(--border-dark);
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icon Box */
+.clay-icon-box {
+  background: var(--accent-pink);
+  border: 2px solid var(--border-dark);
+  border-radius: 16px;
+  box-shadow: 3px 3px 0px 0px var(--border-dark);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Progress Bar */
+.clay-progress {
+  background: #E2E8F0;
+  border: 2px solid var(--border-dark);
+  border-radius: 16px;
+  height: 16px;
+  overflow: hidden;
+}
+
+.clay-progress-fill {
+  background: var(--primary);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-animation {
+  animation: pulse-slow 2s ease-in-out infinite;
 }
